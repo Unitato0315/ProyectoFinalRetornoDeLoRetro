@@ -78,7 +78,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     // Dependecias compose
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
 
     //dagger - hilt
     implementation("com.google.dagger:hilt-android:2.40.5")
@@ -94,4 +94,5 @@ dependencies {
     // Compose Nav Destinations
     implementation ("io.github.raamcosta.compose-destinations:core:1.1.2-beta")
     ksp ("io.github.raamcosta.compose-destinations:ksp:1.1.2-beta")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
 }
