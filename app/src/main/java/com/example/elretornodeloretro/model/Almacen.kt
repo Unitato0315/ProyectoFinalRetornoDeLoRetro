@@ -1,5 +1,6 @@
 package com.example.elretornodeloretro.model
 
 object Almacen {
-    lateinit var UserLogin : UserLogin
+    var token: String = ""
+    lateinit var informationToken: informationToken
 }
