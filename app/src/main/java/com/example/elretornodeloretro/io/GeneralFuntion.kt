@@ -2,9 +2,8 @@ package com.example.elretornodeloretro.io
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.auth0.jwt.interfaces.DecodedJWT
 
-class FuncionesGenerales {
+class GeneralFuntion {
     companion object {
         public fun decodeJWT(token: String): Map<String, Any>? {
             try {

@@ -2,15 +2,11 @@ package com.example.elretornodeloretro
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import android.content.res.Resources
 import androidx.lifecycle.lifecycleScope
-import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
+import com.example.elretornodeloretro.adapter.AdapterViewPage
 import com.example.elretornodeloretro.databinding.ActivityMainBinding
 import com.example.elretornodeloretro.io.data.RetrofitServiceFactory
 import com.example.elretornodeloretro.model.Almacen
@@ -18,20 +14,29 @@ import com.example.elretornodeloretro.model.Game
 import com.example.elretornodeloretro.model.PostModelLogin
 import com.example.elretornodeloretro.model.UserLogin
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.HttpException
-import retrofit2.Response
-import com.example.elretornodeloretro.io.FuncionesGenerales
+import com.example.elretornodeloretro.io.GeneralFuntion
+import com.example.elretornodeloretro.io.TokenManage
+import com.google.android.material.tabs.TabLayoutMediator
+//import com.google.common.io.Resources
 
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     var TAG ="JVVM"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val service = RetrofitServiceFactory.makeRetrofitService(this)
+
+        val token = TokenManage(this)
+        val textToken = token.getToken()
+
+        //if(textToken.isNullOrBlank()){
+        //    Toast.makeText(this,"No guardo el token",Toast.LENGTH_SHORT).show()
+        //}else{
+        //   Toast.makeText(this,"Guardo el token",Toast.LENGTH_SHORT).show()
+        //}
 
         //Consulta normal
         lifecycleScope.launch {
@@ -50,18 +55,17 @@ class MainActivity : AppCompatActivity() {
             showToken(response)
             if(response.message == "OK"){
                 runOnUiThread{
-                    //val textView = findViewById<TextView>(R.id.prueba)
+                    token.saveToken(response.token)
                     Almacen.token = response.token
-                    val claims = FuncionesGenerales.decodeJWT(Almacen.token)
+                    val claims = GeneralFuntion.decodeJWT(Almacen.token)
                     if (claims != null) {
                         val username = claims["USERNAME"]?.toString()
                         val id_user = claims["ID_USUARIO"]
                         val id_rol = claims["ID_ROL"]?.toString()
                         // Obtener otros datos según los campos del token
-                        Toast.makeText(context,id_rol,Toast.LENGTH_SHORT).show()
                         Log.e(TAG,id_user.toString())
-                        //Toast.makeText(context,id_user,Toast.LENGTH_SHORT).show()
-                        Toast.makeText(context,username,Toast.LENGTH_SHORT).show()
+                        Log.e(TAG,id_rol.toString())
+                        Log.e(TAG,username.toString())
                     } else {
                         Toast.makeText(context,"NO SE A PODIDO DECODIFICAR",Toast.LENGTH_SHORT).show()
                     }
@@ -71,9 +75,19 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnBorrar.setOnClickListener {
-            deleteGame(binding.editTextText.text.toString().toInt())
-        }
+        binding.vpPrincipal.adapter = AdapterViewPage(this)
+        TabLayoutMediator(binding.tabLayout,binding.vpPrincipal){tab,index->
+            tab.text = when(index){
+                0-> ""
+                else -> ""
+            }
+            tab.icon = when(index){
+                0-> getDrawable(R.drawable.gamepad_solid)
+                else -> {throw Resources.NotFoundException("Posicion no encontrada")}
+            }
+
+        }.attach()
+
 
     }
 
