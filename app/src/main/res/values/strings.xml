@@ -2,4 +2,5 @@
     <string name="app_name">ElRetornoDeLoRetro</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_tienes_cuenta_unete_a_nosotros">No tienes cuenta? Unete a nosotros.</string>
 </resources>

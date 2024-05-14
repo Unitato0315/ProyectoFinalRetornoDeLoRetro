@@ -1,10 +1,12 @@
 package com.example.elretornodeloretro
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import android.content.res.Resources
+import android.os.Handler
 import androidx.lifecycle.lifecycleScope
 import com.example.elretornodeloretro.adapter.AdapterViewPage
 import com.example.elretornodeloretro.databinding.ActivityMainBinding
@@ -16,6 +18,8 @@ import com.example.elretornodeloretro.model.UserLogin
 import kotlinx.coroutines.launch
 import com.example.elretornodeloretro.io.GeneralFuntion
 import com.example.elretornodeloretro.io.TokenManage
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 //import com.google.common.io.Resources
 
@@ -24,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     var TAG ="JVVM"
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -79,18 +84,18 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayout,binding.vpPrincipal){tab,index->
             tab.text = when(index){
                 0-> ""
+                1-> ""
                 else -> ""
             }
             tab.icon = when(index){
                 0-> getDrawable(R.drawable.gamepad_solid)
+                1-> getDrawable(R.drawable.user_solid)
                 else -> {throw Resources.NotFoundException("Posicion no encontrada")}
             }
 
         }.attach()
 
-
     }
-
     private fun deleteGame(id: Int) {
         val context = this
         lifecycleScope.launch {
