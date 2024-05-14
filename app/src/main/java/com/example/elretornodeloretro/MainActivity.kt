@@ -92,7 +92,6 @@ class MainActivity : AppCompatActivity() {
                 1-> getDrawable(R.drawable.user_solid)
                 else -> {throw Resources.NotFoundException("Posicion no encontrada")}
             }
-
         }.attach()
 
     }
