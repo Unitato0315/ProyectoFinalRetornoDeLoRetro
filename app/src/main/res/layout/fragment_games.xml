@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fondo"
     tools:context=".Fragment_games">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,7 +44,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:src="@drawable/user_solid" /> <!-- Usar el fondo con esquinas redondas -->
+                android:src="@drawable/lupa" /> <!-- Usar el fondo con esquinas redondas -->
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
