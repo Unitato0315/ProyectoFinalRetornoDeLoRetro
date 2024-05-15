@@ -68,9 +68,9 @@ class MainActivity : AppCompatActivity() {
                         val id_user = claims["ID_USUARIO"]
                         val id_rol = claims["ID_ROL"]?.toString()
                         // Obtener otros datos según los campos del token
-                        Log.e(TAG,id_user.toString())
-                        Log.e(TAG,id_rol.toString())
-                        Log.e(TAG,username.toString())
+                        Toast.makeText(context,username,Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context,id_user.toString(),Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context,id_rol,Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(context,"NO SE A PODIDO DECODIFICAR",Toast.LENGTH_SHORT).show()
                     }
