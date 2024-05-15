@@ -5,7 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm
 
 class GeneralFuntion {
     companion object {
-        public fun decodeJWT(token: String): Map<String, Any>? {
+        fun decodeJWT(token: String): Map<String, Any>? {
             try {
                 val algorithm = Algorithm.HMAC256("BDPEK@")
                 val verifier = JWT.require(algorithm).build()

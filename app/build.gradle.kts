@@ -57,7 +57,7 @@ dependencies {
 
     //JSON WEB TOKEN
 
-    implementation("com.auth0:java-jwt:3.18.1")
+    implementation("com.auth0:java-jwt:4.4.0")
 
     //GOOGLE STYLES Y FIREBASE STORAGE
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))

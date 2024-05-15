@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.content.res.Resources
 import android.os.Handler
 import androidx.lifecycle.lifecycleScope
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
+import com.auth0.jwt.interfaces.DecodedJWT
 import com.example.elretornodeloretro.adapter.AdapterViewPage
 import com.example.elretornodeloretro.databinding.ActivityMainBinding
 import com.example.elretornodeloretro.io.data.RetrofitServiceFactory
@@ -61,8 +64,9 @@ class MainActivity : AppCompatActivity() {
             if(response.message == "OK"){
                 runOnUiThread{
                     token.saveToken(response.token)
+                    Toast.makeText(context,response.token,Toast.LENGTH_SHORT).show()
                     Almacen.token = response.token
-                    val claims = GeneralFuntion.decodeJWT(Almacen.token)
+                    val claims = GeneralFuntion.decodeJWT(token.getToken().toString().trim())
                     if (claims != null) {
                         val username = claims["USERNAME"]?.toString()
                         val id_user = claims["ID_USUARIO"]
@@ -122,5 +126,15 @@ class MainActivity : AppCompatActivity() {
 
     fun showToken(result: UserLogin){
         Toast.makeText(this,"'"+result.message+"'",Toast.LENGTH_LONG).show()
+    }
+
+    fun obtenerAlgoritmo(token: String): String? {
+        try {
+            val jwt: DecodedJWT = JWT.decode(token)
+            return jwt.algorithm
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return null
     }
 }
