@@ -1,6 +1,7 @@
 package com.example.elretornodeloretro
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -24,7 +25,6 @@ import com.example.elretornodeloretro.io.TokenManage
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import io.jsonwebtoken.Jwts
 import java.util.Date
 
 //import com.google.common.io.Resources
@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         val service = RetrofitServiceFactory.makeRetrofitService(this)
 
         val token = TokenManage(this)
+
         val textToken = token.getToken()
 
         //if(textToken.isNullOrBlank()){
@@ -87,22 +88,10 @@ class MainActivity : AppCompatActivity() {
                 1-> getDrawable(R.drawable.user_solid)
                 else -> {throw Resources.NotFoundException("Posicion no encontrada")}
             }
+
         }.attach()
 
-        binding.btnPrueba.setOnClickListener {
-            val claims = GeneralFuntion.decodeJWT(token.getToken().toString().trim())
-            if (claims != null) {
-                val username = claims["USERNAME"]?.toString()
-                val id_user = claims["ID_USUARIO"]
-                val id_rol = claims["ID_ROL"]?.toString()
-                // Obtener otros datos según los campos del token
-                Toast.makeText(context,username,Toast.LENGTH_SHORT).show()
-                Toast.makeText(context,id_user.toString(),Toast.LENGTH_SHORT).show()
-                Toast.makeText(context,id_rol,Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context,"NO SE A PODIDO DECODIFICAR",Toast.LENGTH_SHORT).show()
-            }
-        }
+
     }
     private fun deleteGame(id: Int) {
         val context = this
@@ -141,5 +130,20 @@ class MainActivity : AppCompatActivity() {
             e.printStackTrace()
         }
         return null
+    }
+
+    fun decodeToken(context: Context, token: String){
+        val claims = GeneralFuntion.decodeJWT(token)
+        if (claims != null) {
+            val username = claims["USERNAME"]?.toString()
+            val id_user = claims["ID_USUARIO"]
+            val id_rol = claims["ID_ROL"]?.toString()
+            // Obtener otros datos según los campos del token
+            Toast.makeText(context,username,Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,id_user.toString(),Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,id_rol,Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context,"NO SE A PODIDO DECODIFICAR",Toast.LENGTH_SHORT).show()
+        }
     }
 }
