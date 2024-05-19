@@ -8,7 +8,11 @@ import com.example.elretornodeloretro.LoginFragment
 import com.example.elretornodeloretro.MainActivity
 
 class AdapterViewPage(fragment: MainActivity): FragmentStateAdapter(fragment) {
-
+    private val fragmentList = listOf(
+        Fragment_games(),
+        LoginFragment()
+        // Agrega aquí otros fragmentos si es necesario
+    )
     override fun getItemCount() = 2
 
     override fun createFragment(position: Int): Fragment {
@@ -18,5 +22,7 @@ class AdapterViewPage(fragment: MainActivity): FragmentStateAdapter(fragment) {
             else->{throw Resources.NotFoundException("Posicion no encontrada")
             }
         }
+        return fragmentList[position]
     }
+
 }

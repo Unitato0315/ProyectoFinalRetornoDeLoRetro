@@ -3,29 +3,25 @@ package com.example.elretornodeloretro
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import android.content.res.Resources
-import android.os.Handler
 import androidx.lifecycle.lifecycleScope
 import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.example.elretornodeloretro.adapter.AdapterViewPage
 import com.example.elretornodeloretro.databinding.ActivityMainBinding
 import com.example.elretornodeloretro.io.data.RetrofitServiceFactory
-import com.example.elretornodeloretro.model.Almacen
 import com.example.elretornodeloretro.model.Game
 import com.example.elretornodeloretro.model.PostModelLogin
 import com.example.elretornodeloretro.model.UserLogin
 import kotlinx.coroutines.launch
 import com.example.elretornodeloretro.io.GeneralFuntion
 import com.example.elretornodeloretro.io.TokenManage
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.example.elretornodeloretro.model.Almacen
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import java.util.Date
+import retrofit2.HttpException
 
 //import com.google.common.io.Resources
 
@@ -33,6 +29,7 @@ import java.util.Date
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     var TAG ="JVVM"
+    lateinit var tokenManage: TokenManage
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,57 +37,59 @@ class MainActivity : AppCompatActivity() {
 
         val service = RetrofitServiceFactory.makeRetrofitService(this)
 
-        val token = TokenManage(this)
-
-        val textToken = token.getToken()
+        tokenManage = TokenManage(this)
+        val textToken = tokenManage.getToken()
 
         //if(textToken.isNullOrBlank()){
         //    Toast.makeText(this,"No guardo el token",Toast.LENGTH_SHORT).show()
         //}else{
         //   Toast.makeText(this,"Guardo el token",Toast.LENGTH_SHORT).show()
         //}
-
-        //Consulta normal
-        lifecycleScope.launch {
-            val listGames = service.listGames()
-            runOnUiThread {
-                //showGamesPruebas(listGames)
-            }
-        }
         val context = this
         //Con esto me permite realizar el login de la pagina (metodo post necesitan crear un modelo para poder enviarlo como un json, usar el serializableName para ello)
         lifecycleScope.launch {
             val objRequest = PostModelLogin(
                 username = "PAQUITO",
                 password = "PRUEBA")
-            val response = service.signIn(objRequest)
-            showToken(response)
-            if(response.message == "OK"){
-                runOnUiThread{
-                    token.saveToken(response.token)
-                    Toast.makeText(context,response.token,Toast.LENGTH_SHORT).show()
-                    Almacen.token = response.token
+
+            try {
+                val response = service.signIn(objRequest)
+                handleLoginSuccess(response)
+            }catch (e:HttpException){
+                if(e.code()==400){
+                    handleLoginError()
+                }else{
+                    Toast.makeText(context,"Se ha producido un error",Toast.LENGTH_SHORT).show()
                 }
+            }catch (e: Exception){
+                Toast.makeText(context,"Fallo en la solicitud",Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        lifecycleScope.launch {
+            val listGames = service.listGames()
+            runOnUiThread {
+                //showGamesPruebas(listGames)
+                Almacen.games = listGames
+                binding = ActivityMainBinding.inflate(layoutInflater)
+                setContentView(binding.root)
+
+                binding.vpPrincipal.adapter = AdapterViewPage(context)
+                TabLayoutMediator(binding.tabLayout,binding.vpPrincipal){tab,index->
+                    tab.text = when(index){
+                        0-> ""
+                        1-> ""
+                        else -> ""
+                    }
+                    tab.icon = when(index){
+                        0-> getDrawable(R.drawable.gamepad_solid)
+                        1-> getDrawable(R.drawable.user_solid)
+                        else -> {throw Resources.NotFoundException("Posicion no encontrada")}
+                    }
+                }.attach()
             }
         }
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        binding.vpPrincipal.adapter = AdapterViewPage(this)
-        TabLayoutMediator(binding.tabLayout,binding.vpPrincipal){tab,index->
-            tab.text = when(index){
-                0-> ""
-                1-> ""
-                else -> ""
-            }
-            tab.icon = when(index){
-                0-> getDrawable(R.drawable.gamepad_solid)
-                1-> getDrawable(R.drawable.user_solid)
-                else -> {throw Resources.NotFoundException("Posicion no encontrada")}
-            }
-
-        }.attach()
-
 
     }
     private fun deleteGame(id: Int) {
@@ -110,6 +109,19 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    private fun handleLoginSuccess(successResponse: UserLogin?) {
+        if (successResponse != null) {
+            Toast.makeText(this@MainActivity,"Se ha iniciado sesion correctamente",Toast.LENGTH_SHORT).show()
+            tokenManage.saveToken(successResponse.token)
+        }
+    }
+
+    private fun handleLoginError() {
+
+        Toast.makeText(this@MainActivity,"Se han introducido mal los datos",Toast.LENGTH_SHORT).show()
+
     }
 
     fun showGamesPruebas(games:Array<Game>){
