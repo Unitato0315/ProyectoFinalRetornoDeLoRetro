@@ -41,8 +41,8 @@ class Fragment_games : Fragment() {
         recyclerGames.setHasFixedSize(true)
         recyclerGames.layoutManager = GridLayoutManager(requireContext(),2)
 
-        myAdapter = AdapterGameCard(Almacen.games,requireContext())
 
+        myAdapter = AdapterGameCard(Almacen.games,requireContext())
         recyclerGames.adapter =  myAdapter
 
         binding.swrGames.setOnRefreshListener {

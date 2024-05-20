@@ -1,5 +1,6 @@
 package com.example.elretornodeloretro
 
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.example.elretornodeloretro.databinding.FragmentLoginBinding
 import com.example.elretornodeloretro.io.TokenManage
@@ -22,7 +24,7 @@ class LoginFragment : Fragment() {
     lateinit var binding: FragmentLoginBinding
     lateinit var service: ServiceRetrofit
     lateinit var tokenManage: TokenManage
-
+    lateinit var loadingDialog: AlertDialog
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,9 +34,6 @@ class LoginFragment : Fragment() {
         tokenManage = TokenManage(requireContext())
 
         binding.btnLogin.setOnClickListener {
-            //val intent = Intent(requireActivity(), MainActivity::class.java)
-            //requireActivity().finish()
-            //requireActivity().startActivity(intent)
             login()
         }
 
@@ -65,7 +64,9 @@ class LoginFragment : Fragment() {
     private suspend fun handleLoginSuccess(successResponse: UserLogin?) {
         if (successResponse != null) {
             tokenManage.saveToken(successResponse.token)
+            showLoadingDialog()
             delay(2000)
+            loadingDialog.dismiss()
             Toast.makeText(requireContext(),"Se ha iniciado sesion correctamente",Toast.LENGTH_SHORT).show()
             val intent = Intent(requireActivity(), MainActivity::class.java)
             requireActivity().finish()
@@ -74,8 +75,16 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleLoginError() {
-
         Toast.makeText(requireContext(),"Se han introducido mal los datos",Toast.LENGTH_SHORT).show()
+    }
 
+    private fun showLoadingDialog() {
+        val builder = AlertDialog.Builder(requireContext(),R.style.CustomDialog)
+        val inflater = layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_refrest, null)
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        loadingDialog = builder.create()
+        loadingDialog.show()
     }
 }
