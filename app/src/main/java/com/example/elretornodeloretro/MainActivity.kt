@@ -38,7 +38,9 @@ class MainActivity : AppCompatActivity() {
         val service = RetrofitServiceFactory.makeRetrofitService(this)
 
         tokenManage = TokenManage(this)
-        val textToken = tokenManage.getToken()
+
+        tokenManage.deleteToken()
+        //val textToken = tokenManage.getToken()
 
         //if(textToken.isNullOrBlank()){
         //    Toast.makeText(this,"No guardo el token",Toast.LENGTH_SHORT).show()
@@ -47,25 +49,25 @@ class MainActivity : AppCompatActivity() {
         //}
         val context = this
         //Con esto me permite realizar el login de la pagina (metodo post necesitan crear un modelo para poder enviarlo como un json, usar el serializableName para ello)
-        lifecycleScope.launch {
-            val objRequest = PostModelLogin(
-                username = "PAQUITO",
-                password = "PRUEBA")
+        //lifecycleScope.launch {
+         //   val objRequest = PostModelLogin(
+         //       username = "PAQUITO",
+         //       password = "PRUEBA")
 
-            try {
-                val response = service.signIn(objRequest)
-                handleLoginSuccess(response)
-            }catch (e:HttpException){
-                if(e.code()==400){
-                    handleLoginError()
-                }else{
-                    Toast.makeText(context,"Se ha producido un error",Toast.LENGTH_SHORT).show()
-                }
-            }catch (e: Exception){
-                Toast.makeText(context,"Fallo en la solicitud",Toast.LENGTH_SHORT).show()
-            }
+         //   try {
+         //       val response = service.signIn(objRequest)
+         //       handleLoginSuccess(response)
+         //   }catch (e:HttpException){
+         //       if(e.code()==400){
+         //           handleLoginError()
+         //       }else{
+         //           Toast.makeText(context,"Se ha producido un error",Toast.LENGTH_SHORT).show()
+         //       }
+         //   }catch (e: Exception){
+         //       Toast.makeText(context,"Fallo en la solicitud",Toast.LENGTH_SHORT).show()
+         //   }
 
-        }
+        //}
 
         lifecycleScope.launch {
             val listGames = service.listGames()

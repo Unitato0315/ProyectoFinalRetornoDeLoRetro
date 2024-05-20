@@ -1,20 +1,17 @@
 package com.example.elretornodeloretro.io.data
 
 import android.content.Context
-import com.example.elretornodeloretro.Interceptor.AuthInterceptor
+import com.example.elretornodeloretro.interceptor.AuthInterceptor
 import com.example.elretornodeloretro.model.Game
-import com.example.elretornodeloretro.model.ModelDeleteGame
 import com.example.elretornodeloretro.model.PostModelLogin
 import com.example.elretornodeloretro.model.UserLogin
 import okhttp3.OkHttpClient
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
 
