@@ -14,6 +14,7 @@ import com.example.elretornodeloretro.io.data.RetrofitServiceFactory
 import com.example.elretornodeloretro.io.data.ServiceRetrofit
 import com.example.elretornodeloretro.model.PostModelLogin
 import com.example.elretornodeloretro.model.UserLogin
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
@@ -61,10 +62,14 @@ class LoginFragment : Fragment() {
 
         }
     }
-    private fun handleLoginSuccess(successResponse: UserLogin?) {
+    private suspend fun handleLoginSuccess(successResponse: UserLogin?) {
         if (successResponse != null) {
-            Toast.makeText(requireContext(),"Se ha iniciado sesion correctamente",Toast.LENGTH_SHORT).show()
             tokenManage.saveToken(successResponse.token)
+            delay(2000)
+            Toast.makeText(requireContext(),"Se ha iniciado sesion correctamente",Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireActivity(), MainActivity::class.java)
+            requireActivity().finish()
+            requireActivity().startActivity(intent)
         }
     }
 

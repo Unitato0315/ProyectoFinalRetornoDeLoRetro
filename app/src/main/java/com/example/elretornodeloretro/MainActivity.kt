@@ -6,10 +6,13 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import android.content.res.Resources
+import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import com.auth0.jwt.JWT
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.example.elretornodeloretro.adapter.AdapterViewPage
+import com.example.elretornodeloretro.adapter.AdapterViewPageAdmin
+import com.example.elretornodeloretro.adapter.AdapterViewPageNormalUser
 import com.example.elretornodeloretro.databinding.ActivityMainBinding
 import com.example.elretornodeloretro.io.data.RetrofitServiceFactory
 import com.example.elretornodeloretro.model.Game
@@ -39,14 +42,9 @@ class MainActivity : AppCompatActivity() {
 
         tokenManage = TokenManage(this)
 
-        tokenManage.deleteToken()
-        //val textToken = tokenManage.getToken()
+        //tokenManage.deleteToken()
+        val token = tokenManage.getToken()
 
-        //if(textToken.isNullOrBlank()){
-        //    Toast.makeText(this,"No guardo el token",Toast.LENGTH_SHORT).show()
-        //}else{
-        //   Toast.makeText(this,"Guardo el token",Toast.LENGTH_SHORT).show()
-        //}
         val context = this
         //Con esto me permite realizar el login de la pagina (metodo post necesitan crear un modelo para poder enviarlo como un json, usar el serializableName para ello)
         //lifecycleScope.launch {
@@ -76,20 +74,67 @@ class MainActivity : AppCompatActivity() {
                 Almacen.games = listGames
                 binding = ActivityMainBinding.inflate(layoutInflater)
                 setContentView(binding.root)
-
-                binding.vpPrincipal.adapter = AdapterViewPage(context)
-                TabLayoutMediator(binding.tabLayout,binding.vpPrincipal){tab,index->
-                    tab.text = when(index){
-                        0-> ""
-                        1-> ""
-                        else -> ""
+                val token2 = tokenManage.getToken()
+                //Toast.makeText(context,token2.isNullOrBlank().toString(),Toast.LENGTH_SHORT).show()
+                if(token2.isNullOrBlank()){
+                    binding.vpPrincipal.adapter = AdapterViewPage(context)
+                    TabLayoutMediator(binding.tabLayout,binding.vpPrincipal){tab,index->
+                        tab.text = when(index){
+                            0-> ""
+                            1-> ""
+                            else -> ""
+                        }
+                        tab.icon = when(index){
+                            0-> getDrawable(R.drawable.gamepad_solid)
+                            1-> getDrawable(R.drawable.user_solid)
+                            else -> {throw Resources.NotFoundException("Posicion no encontrada")}
+                        }
+                    }.attach()
+                }else{
+                    val claims = GeneralFuntion.decodeJWT(token2)
+                    Toast.makeText(context,claims.toString(),Toast.LENGTH_SHORT).show()
+                    //Log.e(TAG,claims.toString())
+                    if(claims != null){
+                        val id_rol = claims["ID_ROL"]?.toString()
+                        if (id_rol == "99"){
+                            binding.vpPrincipal.adapter = AdapterViewPageAdmin(context)
+                            TabLayoutMediator(binding.tabLayout,binding.vpPrincipal){tab,index->
+                                tab.text = when(index){
+                                    0-> ""
+                                    1-> ""
+                                    2-> ""
+                                    3-> ""
+                                    else -> ""
+                                }
+                                tab.icon = when(index){
+                                    0-> getDrawable(R.drawable.gamepad_solid)
+                                    1-> getDrawable(R.drawable.user_solid)
+                                    2-> getDrawable(R.drawable.lupa)
+                                    3-> getDrawable(R.drawable.bar)
+                                    else -> {throw Resources.NotFoundException("Posicion no encontrada")}
+                                }
+                            }.attach()
+                        }else{
+                            binding.vpPrincipal.adapter = AdapterViewPageNormalUser(context)
+                            TabLayoutMediator(binding.tabLayout,binding.vpPrincipal){tab,index->
+                                tab.text = when(index){
+                                    0-> ""
+                                    1-> ""
+                                    2-> ""
+                                    3-> ""
+                                    else -> ""
+                                }
+                                tab.icon = when(index){
+                                    0-> getDrawable(R.drawable.gamepad_solid)
+                                    1-> getDrawable(R.drawable.user_solid)
+                                    2-> getDrawable(R.drawable.bar)
+                                    3-> getDrawable(R.drawable.lupa)
+                                    else -> {throw Resources.NotFoundException("Posicion no encontrada")}
+                                }
+                            }.attach()
+                        }
                     }
-                    tab.icon = when(index){
-                        0-> getDrawable(R.drawable.gamepad_solid)
-                        1-> getDrawable(R.drawable.user_solid)
-                        else -> {throw Resources.NotFoundException("Posicion no encontrada")}
-                    }
-                }.attach()
+                }
             }
         }
 
@@ -134,16 +179,6 @@ class MainActivity : AppCompatActivity() {
 
     fun showToken(result: UserLogin){
         Toast.makeText(this,"'"+result.message+"'",Toast.LENGTH_LONG).show()
-    }
-
-    fun obtenerAlgoritmo(token: String): String? {
-        try {
-            val jwt: DecodedJWT = JWT.decode(token)
-            return jwt.algorithm
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return null
     }
 
     fun decodeToken(context: Context, token: String){
