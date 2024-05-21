@@ -15,7 +15,7 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginBottom="2dp"
-            android:background="@color/md_theme_inversePrimary"
+            android:background="@color/card"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

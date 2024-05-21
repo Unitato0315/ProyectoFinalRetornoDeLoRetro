@@ -42,7 +42,7 @@ class Fragment_games : Fragment() {
         recyclerGames.layoutManager = GridLayoutManager(requireContext(),2)
 
 
-        myAdapter = AdapterGameCard(Almacen.games,requireContext())
+        myAdapter = AdapterGameCard(Almacen.games.toMutableList(),requireContext())
         recyclerGames.adapter =  myAdapter
 
         binding.swrGames.setOnRefreshListener {
@@ -67,7 +67,7 @@ class Fragment_games : Fragment() {
         binding.swrGames.isRefreshing=false
     }
     private fun updateGames(games: Array<Game>){
-        myAdapter.listGames=games
+        myAdapter.listGames= games.toMutableList()
         myAdapter.notifyDataSetChanged()
     }
 }

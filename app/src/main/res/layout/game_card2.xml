@@ -30,6 +30,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_corners"
+            android:paddingStart="10dp"
             android:text="@string/titulo"
             android:textSize="24sp" />
 
@@ -40,7 +41,7 @@
 
             <ImageButton
                 android:id="@+id/btnModify"
-                android:layout_width="96dp"
+                android:layout_width="103dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="20dp"

@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
 
         android:layout_height="69dp"
-        android:background="@color/md_theme_inversePrimary"
+        android:background="@color/card"
         android:contentDescription="@string/tablayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
