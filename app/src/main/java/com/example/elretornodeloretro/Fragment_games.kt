@@ -49,6 +49,7 @@ class Fragment_games : Fragment() {
             refreshData()
         }
 
+
         return binding.root
     }
 

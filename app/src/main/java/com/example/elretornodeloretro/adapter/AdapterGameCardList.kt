@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +28,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): RecyclerView.Adapter<AdapterGameCard.ViewHolder>() {
+class AdapterGameCardList(var listGames: MutableList<Game>, var context: Context): RecyclerView.Adapter<AdapterGameCardList.ViewHolder>() {
 
     lateinit var tokenManage: TokenManage
     lateinit var idRol: String
@@ -40,21 +41,8 @@ class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): R
         tokenManage = TokenManage(context)
         val token = tokenManage.getToken()
 
-        if(token.isNullOrBlank()){
-           vista = LayoutInflater.from(parent.context).inflate(R.layout.game_card,parent,false)
-        }else{
-            val claims = GeneralFuntion.decodeJWT(token)
-            if (claims != null){
-                idRol = claims["ID_ROL"]?.toString()!!
-                vista = if(idRol =="99"){
-                    LayoutInflater.from(parent.context).inflate(R.layout.game_card_list_admin,parent,false)
-                }else{
-                    LayoutInflater.from(parent.context).inflate(R.layout.game_card3,parent,false)
-                }
-            }else{
-                vista = LayoutInflater.from(parent.context).inflate(R.layout.game_card,parent,false)
-            }
-        }
+        vista = LayoutInflater.from(parent.context).inflate(R.layout.game_card_list_admin,parent,false)
+
         val viewHolder =ViewHolder(vista!!)
 
         return viewHolder
@@ -71,7 +59,6 @@ class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): R
     class ViewHolder(view:View): RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.imGame)
         val title: TextView = view.findViewById(R.id.labelTitulo)
-        val precio: TextView = view.findViewById(R.id.labelPrecio)
         val view: View = view
         lateinit var tokenManage: TokenManage
         lateinit var idRol: String
@@ -80,7 +67,7 @@ class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): R
             game: Game,
             context: Context,
             pos: Int,
-            adapter: AdapterGameCard
+            adapter: AdapterGameCardList
         ){
             var storage = Firebase.storage
 
@@ -96,19 +83,23 @@ class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): R
             }
 
             tokenManage = TokenManage(context)
-            val token = tokenManage.getToken()
+            //val token = tokenManage.getToken()
             title.text = game.TITULO
-            precio.text = game.PRECIO_FINAL.toString()+"€"
-            if(!token.isNullOrBlank()){
-                val btnBuy:ImageView =view.findViewById(R.id.btnBuy)
-                btnBuy.setOnClickListener{
-                    Toast.makeText(context,"Mensaje",Toast.LENGTH_SHORT).show()
-                }
+
+
+            val delete : ImageButton = view.findViewById(R.id.btnDelete)
+            val modify: LinearLayout = view.findViewById(R.id.lyModify)
+
+            delete.setOnClickListener {
+                showDialog(context,game.TITULO,game.ID_PRODUCTO,adapter, pos,spaceRef)
             }
 
+            modify.setOnClickListener {
+                Toast.makeText(context,"Modificar", Toast.LENGTH_SHORT).show()
+            }
 
         }
-        fun showDialog(context: Context, title: String, idGame: Int, adapter: AdapterGameCard, pos: Int, spaceReference: StorageReference){
+        fun showDialog(context: Context, title: String, idGame: Int, adapter: AdapterGameCardList, pos: Int, spaceReference: StorageReference){
             MaterialAlertDialogBuilder(context)
                 .setTitle("Vas a eliminar el producto: $title")
                 .setMessage("¿Estas seguro que quieres eliminarlo?")
@@ -143,7 +134,6 @@ class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): R
                             "Se ha producido un error: ${e.message}",
                             Toast.LENGTH_LONG
                         ).show()
-
                     }
                 }
             }

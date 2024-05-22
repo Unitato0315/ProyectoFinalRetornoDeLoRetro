@@ -5,55 +5,64 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.elretornodeloretro.adapter.AdapterGameCard
+import com.example.elretornodeloretro.adapter.AdapterGameCardList
+import com.example.elretornodeloretro.databinding.FragmentGamesListBinding
+import com.example.elretornodeloretro.io.data.RetrofitServiceFactory
+import com.example.elretornodeloretro.io.data.ServiceRetrofit
+import com.example.elretornodeloretro.model.Almacen
+import com.example.elretornodeloretro.model.Game
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [gamesListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class gamesListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    lateinit var binding: FragmentGamesListBinding
+    lateinit var recyclerGames: RecyclerView
+    lateinit var myAdapter : AdapterGameCardList
+    lateinit var service: ServiceRetrofit
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_games_list, container, false)
+        binding = FragmentGamesListBinding.inflate(inflater,container,false)
+        service = RetrofitServiceFactory.makeRetrofitService(requireContext())
+
+        recyclerGames = binding.rvGamesList
+        recyclerGames.setHasFixedSize(true)
+        recyclerGames.layoutManager = GridLayoutManager(requireContext(),1)
+
+        myAdapter = AdapterGameCardList(Almacen.games.toMutableList(),requireContext())
+        recyclerGames.adapter =  myAdapter
+
+        binding.swrGamesList.setOnRefreshListener {
+            refreshData()
+        }
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment gamesListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            gamesListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun refreshData(){
+        lifecycleScope.launch {
+            try{
+                val listGames = withContext(Dispatchers.IO){
+                    service.listGames()
                 }
+                Almacen.games=listGames
+                updateGames(Almacen.games)
+            }catch (e: Exception){
+                Toast.makeText(requireContext(),"Se ha producido un error", Toast.LENGTH_LONG).show()
             }
+        }
+        binding.swrGamesList.isRefreshing=false
     }
+    private fun updateGames(games: Array<Game>){
+        myAdapter.listGames= games.toMutableList()
+        myAdapter.notifyDataSetChanged()
+    }
+
 }

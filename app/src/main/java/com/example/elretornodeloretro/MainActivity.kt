@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         tokenManage = TokenManage(this)
 
         //tokenManage.deleteToken()
-        val token = tokenManage.getToken()
 
         val context = this
         //Con esto me permite realizar el login de la pagina (metodo post necesitan crear un modelo para poder enviarlo como un json, usar el serializableName para ello)
@@ -86,13 +85,13 @@ class MainActivity : AppCompatActivity() {
                         }
                         tab.icon = when(index){
                             0-> getDrawable(R.drawable.gamepad_solid)
-                            1-> getDrawable(R.drawable.user_solid)
+                            1-> getDrawable(R.drawable.user_check_solid)
                             else -> {throw Resources.NotFoundException("Posicion no encontrada")}
                         }
                     }.attach()
                 }else{
                     val claims = GeneralFuntion.decodeJWT(token2)
-                    Toast.makeText(context,claims.toString(),Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context,claims.toString(),Toast.LENGTH_SHORT).show()
                     //Log.e(TAG,claims.toString())
                     if(claims != null){
                         val id_rol = claims["ID_ROL"]?.toString()
@@ -103,14 +102,12 @@ class MainActivity : AppCompatActivity() {
                                     0-> ""
                                     1-> ""
                                     2-> ""
-                                    3-> ""
                                     else -> ""
                                 }
                                 tab.icon = when(index){
                                     0-> getDrawable(R.drawable.gamepad_solid)
-                                    1-> getDrawable(R.drawable.user_solid)
-                                    2-> getDrawable(R.drawable.lupa)
-                                    3-> getDrawable(R.drawable.bar)
+                                    1-> getDrawable(R.drawable.message_solid)
+                                    2-> getDrawable(R.drawable.user_solid)
                                     else -> {throw Resources.NotFoundException("Posicion no encontrada")}
                                 }
                             }.attach()
@@ -126,9 +123,9 @@ class MainActivity : AppCompatActivity() {
                                 }
                                 tab.icon = when(index){
                                     0-> getDrawable(R.drawable.gamepad_solid)
-                                    1-> getDrawable(R.drawable.user_solid)
-                                    2-> getDrawable(R.drawable.bar)
-                                    3-> getDrawable(R.drawable.lupa)
+                                    1-> getDrawable(R.drawable.cart_shopping_solid)
+                                    2-> getDrawable(R.drawable.message_solid)
+                                    3-> getDrawable(R.drawable.user_solid)
                                     else -> {throw Resources.NotFoundException("Posicion no encontrada")}
                                 }
                             }.attach()
@@ -142,7 +139,6 @@ class MainActivity : AppCompatActivity() {
     private fun deleteGame(id: Int) {
         val context = this
         lifecycleScope.launch {
-            val request = RetrofitServiceFactory.makeRetrofitService(context).deleteGame(id)
             try {
                 val response = RetrofitServiceFactory.makeRetrofitService(context).deleteGame(id)
                 if (response.isSuccessful)  {
@@ -151,7 +147,6 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(context, "No tienes acceso a esta seccion", Toast.LENGTH_LONG).show()
                 }
             } catch (e: Exception) {
-                // Manejar otros errores aquí
                 Toast.makeText(context, "Se ha producido un error: ${e.message}", Toast.LENGTH_LONG).show()
             }
 

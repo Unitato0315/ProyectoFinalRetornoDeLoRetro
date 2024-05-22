@@ -35,7 +35,8 @@
                 android:hint="@string/buscador"
                 android:paddingLeft="10dp"
                 android:textColor="#FFFFFF"
-                android:textColorHint="@color/md_theme_onBackground_highContrast" />
+                android:textColorHint="@color/md_theme_onBackground_highContrast"
+                app:endIconMode="clear_text"/>
 
             <ImageView
                 android:id="@+id/imageView2"

@@ -6,4 +6,18 @@
     <string name="buscador">Buscador</string>
     <string name="titulo">Titulo</string>
     <string name="tablayout">tabLayout</string>
+    <string name="usuario">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="confirmar">Confirmar contraseña</string>
+    <string name="email">Correo electronico</string>
+    <string name="menuRegistro">Registro</string>
+    <string name="registro2">Crear usuario</string>
+    <string name="condiciones">Acepto los terminos y condiciones</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellidos">Apellidos</string>
+    <string name="dni">DNI</string>
+    <string name="provincia">Provincia</string>
+    <string name="localidad">Localidad</string>
+    <string name="direccion">Direccion</string>
+    <string name="codigo_postal">Codigo postal</string>
 </resources>

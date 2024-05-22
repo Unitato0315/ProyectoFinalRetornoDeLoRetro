@@ -12,26 +12,22 @@ import com.example.elretornodeloretro.userOptionFragment
 
 class AdapterViewPageAdmin(fragment: MainActivity): FragmentStateAdapter(fragment) {
     private val fragmentList = listOf(
-        Fragment_games(),
         gamesListFragment(),
         factureFragment(),
         userOptionFragment()
         // Agrega aquí otros fragmentos si es necesario
     )
-    override fun getItemCount() = 4
+    override fun getItemCount() = 3
 
     override fun createFragment(position: Int): Fragment {
         return when(position){
             0->{
-                Fragment_games()
-            }
-            1->{
                 gamesListFragment()
             }
-            2->{
+            1->{
                 factureFragment()
             }
-            3->{
+            2->{
                 userOptionFragment()
             }
             else->{throw Resources.NotFoundException("Posicion no encontrada")

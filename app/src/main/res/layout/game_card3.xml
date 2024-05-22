@@ -20,6 +20,7 @@
             android:layout_height="86dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
+            android:rotation="90"
             app:srcCompat="@drawable/no_photo" />
 
         <TextView

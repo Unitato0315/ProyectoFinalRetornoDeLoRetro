@@ -37,6 +37,11 @@ class LoginFragment : Fragment() {
             login()
         }
 
+        binding.tvRegister.setOnClickListener {
+            val registerIntent = Intent(requireContext(),SingUpActivity::class.java)
+            startActivity(registerIntent)
+        }
+
         return binding.root
     }
 
