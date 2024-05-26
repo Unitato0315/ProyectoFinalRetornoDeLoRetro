@@ -1,6 +1,7 @@
 package com.example.elretornodeloretro
 
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -53,7 +54,10 @@ class LoginFragment : Fragment() {
 
             try {
                 val response = service.signIn(objRequest)
-                handleLoginSuccess(response)
+                activity?.runOnUiThread {
+                    handleLoginSuccess(response)
+                }
+
             }catch (e: HttpException){
                 if(e.code()==400){
                     handleLoginError()
@@ -66,11 +70,10 @@ class LoginFragment : Fragment() {
 
         }
     }
-    private suspend fun handleLoginSuccess(successResponse: UserLogin?) {
+    private fun handleLoginSuccess(successResponse: UserLogin?) {
         if (successResponse != null) {
             tokenManage.saveToken(successResponse.token)
             showLoadingDialog()
-            delay(2000)
             loadingDialog.dismiss()
             Toast.makeText(requireContext(),"Se ha iniciado sesion correctamente",Toast.LENGTH_SHORT).show()
             val intent = Intent(requireActivity(), MainActivity::class.java)

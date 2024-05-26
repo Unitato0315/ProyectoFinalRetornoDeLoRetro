@@ -1,5 +1,5 @@
 package com.example.elretornodeloretro.model
 
-data class ModelDeleteGame(
+data class Message(
     val text: String
 )

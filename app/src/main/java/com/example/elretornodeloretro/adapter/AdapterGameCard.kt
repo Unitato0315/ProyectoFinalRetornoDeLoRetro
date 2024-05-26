@@ -25,38 +25,19 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.internal.platform.Platform
 import java.io.File
 
 class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): RecyclerView.Adapter<AdapterGameCard.ViewHolder>() {
 
-    lateinit var tokenManage: TokenManage
-    lateinit var idRol: String
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listGames[position]
         holder.bind(item,context,position,this)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var vista: View? = null
-        tokenManage = TokenManage(context)
-        val token = tokenManage.getToken()
-
-        if(token.isNullOrBlank()){
-           vista = LayoutInflater.from(parent.context).inflate(R.layout.game_card,parent,false)
-        }else{
-            val claims = GeneralFuntion.decodeJWT(token)
-            if (claims != null){
-                idRol = claims["ID_ROL"]?.toString()!!
-                vista = if(idRol =="99"){
-                    LayoutInflater.from(parent.context).inflate(R.layout.game_card_list_admin,parent,false)
-                }else{
-                    LayoutInflater.from(parent.context).inflate(R.layout.game_card3,parent,false)
-                }
-            }else{
-                vista = LayoutInflater.from(parent.context).inflate(R.layout.game_card,parent,false)
-            }
-        }
+        vista = LayoutInflater.from(parent.context).inflate(R.layout.game_card,parent,false)
         val viewHolder =ViewHolder(vista!!)
-
         return viewHolder
     }
 
@@ -72,9 +53,8 @@ class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): R
         val image: ImageView = view.findViewById(R.id.imGame)
         val title: TextView = view.findViewById(R.id.labelTitulo)
         val precio: TextView = view.findViewById(R.id.labelPrecio)
+        val platform: TextView = view.findViewById(R.id.labelPlataforma)
         val view: View = view
-        lateinit var tokenManage: TokenManage
-        lateinit var idRol: String
         @SuppressLint("ResourceAsColor")
         fun bind(
             game: Game,
@@ -95,58 +75,17 @@ class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): R
                 Toast.makeText(context,"Algo ha fallado en la descarga", Toast.LENGTH_SHORT).show()
             }
 
-            tokenManage = TokenManage(context)
-            val token = tokenManage.getToken()
-            title.text = game.TITULO
-            precio.text = game.PRECIO_FINAL.toString()+"€"
-            if(!token.isNullOrBlank()){
-                val btnBuy:ImageView =view.findViewById(R.id.btnBuy)
-                btnBuy.setOnClickListener{
-                    Toast.makeText(context,"Mensaje",Toast.LENGTH_SHORT).show()
-                }
+            var titleText: String
+            if(game.TITULO.length > 40 ){
+                titleText = game.TITULO.substring(39)+"..."
+            }else{
+                titleText = game.TITULO
             }
+            title.text = titleText
+            precio.text = "${String.format("%.2f",game.PRECIO_FINAL)}€"
+            platform.text = game.NOMBRE_PLATAFORMA.toString()
 
 
-        }
-        fun showDialog(context: Context, title: String, idGame: Int, adapter: AdapterGameCard, pos: Int, spaceReference: StorageReference){
-            MaterialAlertDialogBuilder(context)
-                .setTitle("Vas a eliminar el producto: $title")
-                .setMessage("¿Estas seguro que quieres eliminarlo?")
-                .setPositiveButton("Sí"){dialog, which ->
-                    deleteGame(idGame,context)
-                    adapter.removeItem(pos)
-                    spaceReference.delete()
-                }.setNegativeButton("No"){dialog, which ->
-                    dialog.dismiss()
-                }
-                .create()
-                .show()
-        }
-        fun deleteGame(idGame: Int, context: Context){
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    val response = RetrofitServiceFactory.makeRetrofitService(context).deleteGame(idGame)
-                    if (response.isSuccessful)  {
-                        withContext(Dispatchers.Main){
-                            Toast.makeText(context, "Se ha borrado correctamente", Toast.LENGTH_LONG).show()
-                        }
-                    } else {
-                        withContext(Dispatchers.Main){
-                            Toast.makeText(context, "No tienes acceso a esta seccion", Toast.LENGTH_LONG).show()
-                        }
-                    }
-                } catch (e: Exception) {
-
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(
-                            context,
-                            "Se ha producido un error: ${e.message}",
-                            Toast.LENGTH_LONG
-                        ).show()
-
-                    }
-                }
-            }
         }
     }
 

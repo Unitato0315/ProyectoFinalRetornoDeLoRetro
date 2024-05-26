@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.elretornodeloretro.adapter.AdapterGameCard
 import com.example.elretornodeloretro.adapter.AdapterGameCardList
 import com.example.elretornodeloretro.databinding.FragmentGamesListBinding
 import com.example.elretornodeloretro.io.data.RetrofitServiceFactory
@@ -20,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class gamesListFragment : Fragment() {
+class GamesListFragment : Fragment() {
     lateinit var binding: FragmentGamesListBinding
     lateinit var recyclerGames: RecyclerView
     lateinit var myAdapter : AdapterGameCardList
@@ -52,8 +51,10 @@ class gamesListFragment : Fragment() {
                 val listGames = withContext(Dispatchers.IO){
                     service.listGames()
                 }
-                Almacen.games=listGames
-                updateGames(Almacen.games)
+                activity?.runOnUiThread {
+                    Almacen.games=listGames
+                    updateGames(Almacen.games)
+                }
             }catch (e: Exception){
                 Toast.makeText(requireContext(),"Se ha producido un error", Toast.LENGTH_LONG).show()
             }
@@ -63,6 +64,11 @@ class gamesListFragment : Fragment() {
     private fun updateGames(games: Array<Game>){
         myAdapter.listGames= games.toMutableList()
         myAdapter.notifyDataSetChanged()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshData()
     }
 
 }

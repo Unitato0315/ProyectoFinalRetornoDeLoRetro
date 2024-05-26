@@ -11,7 +11,7 @@ data class Game(
     val NOMBRE_ESTADO_PRODUCTO: String,
     val NOMBRE_PLATAFORMA: String,
     val NOMBRE_TIPO: String,
-    val PRECIO_FINAL: Int,
-    val PRECIO_VENDEDOR: Int,
+    val PRECIO_FINAL: Float,
+    val PRECIO_VENDEDOR: Float,
     val TITULO: String
 )

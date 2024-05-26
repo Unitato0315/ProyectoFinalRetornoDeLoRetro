@@ -34,8 +34,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:tabIconTint="@color/md_theme_tertiary_highContrast"
-        app:tabIndicatorColor="@color/md_theme_onSecondaryContainer" />
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

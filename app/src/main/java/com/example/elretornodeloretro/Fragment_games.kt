@@ -14,6 +14,7 @@ import com.example.elretornodeloretro.adapter.AdapterGameCard
 import com.example.elretornodeloretro.adapter.AdapterViewPage
 import com.example.elretornodeloretro.databinding.ActivityMainBinding
 import com.example.elretornodeloretro.databinding.FragmentGamesBinding
+import com.example.elretornodeloretro.io.TokenManage
 import com.example.elretornodeloretro.io.data.RetrofitServiceFactory
 import com.example.elretornodeloretro.io.data.ServiceRetrofit
 import com.example.elretornodeloretro.model.Almacen
@@ -28,6 +29,7 @@ class Fragment_games : Fragment() {
     lateinit var recyclerGames: RecyclerView
     lateinit var myAdapter : AdapterGameCard
     lateinit var service: ServiceRetrofit
+    lateinit var tokenManage: TokenManage
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +38,7 @@ class Fragment_games : Fragment() {
 
         binding = FragmentGamesBinding.inflate(inflater,container,false)
         service = RetrofitServiceFactory.makeRetrofitService(requireContext())
+        tokenManage = TokenManage(requireContext())
 
         recyclerGames = binding.rvGames
         recyclerGames.setHasFixedSize(true)
@@ -49,7 +52,6 @@ class Fragment_games : Fragment() {
             refreshData()
         }
 
-
         return binding.root
     }
 
@@ -59,8 +61,10 @@ class Fragment_games : Fragment() {
                 val listGames = withContext(Dispatchers.IO){
                     service.listGames()
                 }
-                Almacen.games=listGames
-                updateGames(Almacen.games)
+                activity?.runOnUiThread {
+                    Almacen.games=listGames
+                    updateGames(Almacen.games)
+                }
             }catch (e: Exception){
                 Toast.makeText(requireContext(),"Se ha producido un error",Toast.LENGTH_LONG).show()
             }
@@ -71,4 +75,10 @@ class Fragment_games : Fragment() {
         myAdapter.listGames= games.toMutableList()
         myAdapter.notifyDataSetChanged()
     }
+
+    override fun onResume() {
+        super.onResume()
+        refreshData()
+    }
+
 }

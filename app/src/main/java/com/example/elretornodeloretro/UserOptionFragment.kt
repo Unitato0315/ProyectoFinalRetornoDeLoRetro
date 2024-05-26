@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.elretornodeloretro.databinding.FragmentUserOptionBinding
 import com.example.elretornodeloretro.io.TokenManage
-import com.example.elretornodeloretro.model.Almacen
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,10 +16,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [userOptionFragment.newInstance] factory method to
+ * Use the [UserOptionFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class userOptionFragment : Fragment() {
+class UserOptionFragment : Fragment() {
     lateinit var binding: FragmentUserOptionBinding
     lateinit var tokenManage : TokenManage
     override fun onCreateView(

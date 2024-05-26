@@ -1,9 +1,8 @@
-package com.example.elretornodeloretro.interceptor
+package com.example.elretornodeloretro.io.data
 
 import android.content.Context
 import android.util.Log
 import com.example.elretornodeloretro.io.TokenManage
-import com.example.elretornodeloretro.model.Almacen
 import okhttp3.Interceptor
 import okhttp3.Response
 

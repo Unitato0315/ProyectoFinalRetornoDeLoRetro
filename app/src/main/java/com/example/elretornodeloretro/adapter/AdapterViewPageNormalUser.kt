@@ -4,18 +4,17 @@ import android.content.res.Resources
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.elretornodeloretro.Fragment_games
-import com.example.elretornodeloretro.LoginFragment
 import com.example.elretornodeloretro.MainActivity
-import com.example.elretornodeloretro.shoppingFragment
-import com.example.elretornodeloretro.userOptionFragment
-import com.example.elretornodeloretro.whiteListFragment
+import com.example.elretornodeloretro.ShoppingFragment
+import com.example.elretornodeloretro.UserOptionFragment
+import com.example.elretornodeloretro.WhiteListFragment
 
 class AdapterViewPageNormalUser (fragment: MainActivity): FragmentStateAdapter(fragment) {
     private val fragmentList = listOf(
         Fragment_games(),
-        shoppingFragment(),
-        whiteListFragment(),
-        userOptionFragment()
+        ShoppingFragment(),
+        WhiteListFragment(),
+        UserOptionFragment()
         // Agrega aquí otros fragmentos si es necesario
     )
     override fun getItemCount() = 4
@@ -26,13 +25,13 @@ class AdapterViewPageNormalUser (fragment: MainActivity): FragmentStateAdapter(f
                 Fragment_games()
             }
             1->{
-                shoppingFragment()
+                ShoppingFragment()
             }
             2->{
-                whiteListFragment()
+                WhiteListFragment()
             }
             3->{
-                userOptionFragment()
+                UserOptionFragment()
             }
             else->{throw Resources.NotFoundException("Posicion no encontrada")
             }

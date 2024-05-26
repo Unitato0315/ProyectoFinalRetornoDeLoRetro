@@ -73,7 +73,17 @@ class MainActivity : AppCompatActivity() {
                 Almacen.games = listGames
                 binding = ActivityMainBinding.inflate(layoutInflater)
                 setContentView(binding.root)
-                val token2 = tokenManage.getToken()
+
+                var token2 = tokenManage.getToken()
+
+                if(!token2.isNullOrBlank()){
+                    val claims = GeneralFuntion.decodeJWT(token2!!)
+                    if (claims == null){
+                        tokenManage.deleteToken()
+                        token2 = ""
+                    }
+                }
+
                 //Toast.makeText(context,token2.isNullOrBlank().toString(),Toast.LENGTH_SHORT).show()
                 if(token2.isNullOrBlank()){
                     binding.vpPrincipal.adapter = AdapterViewPage(context)
@@ -136,46 +146,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-    private fun deleteGame(id: Int) {
-        val context = this
-        lifecycleScope.launch {
-            try {
-                val response = RetrofitServiceFactory.makeRetrofitService(context).deleteGame(id)
-                if (response.isSuccessful)  {
-                    Toast.makeText(context, "No tienes acceso a esta seccion", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(context, "No tienes acceso a esta seccion", Toast.LENGTH_LONG).show()
-                }
-            } catch (e: Exception) {
-                Toast.makeText(context, "Se ha producido un error: ${e.message}", Toast.LENGTH_LONG).show()
-            }
-
-        }
-    }
-
-    private fun handleLoginSuccess(successResponse: UserLogin?) {
-        if (successResponse != null) {
-            Toast.makeText(this@MainActivity,"Se ha iniciado sesion correctamente",Toast.LENGTH_SHORT).show()
-            tokenManage.saveToken(successResponse.token)
-        }
-    }
-
-    private fun handleLoginError() {
-
-        Toast.makeText(this@MainActivity,"Se han introducido mal los datos",Toast.LENGTH_SHORT).show()
-
-    }
-
-    fun showGamesPruebas(games:Array<Game>){
-        for (game in games){
-            Toast.makeText(this,game.TITULO,Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    fun showToken(result: UserLogin){
-        Toast.makeText(this,"'"+result.message+"'",Toast.LENGTH_LONG).show()
-    }
-
+    //Como referencia
     fun decodeToken(context: Context, token: String){
         val claims = GeneralFuntion.decodeJWT(token)
         if (claims != null) {
@@ -189,5 +160,13 @@ class MainActivity : AppCompatActivity() {
         } else {
             Toast.makeText(context,"NO SE A PODIDO DECODIFICAR",Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        if(tokenManage.getToken()!=""){
+            recreate()
+        }
+
     }
 }
