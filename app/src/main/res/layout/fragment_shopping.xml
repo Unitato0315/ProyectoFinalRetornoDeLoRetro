@@ -13,6 +13,7 @@
         tools:ignore="UselessParent">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvShop"
             android:layout_width="match_parent"
             android:layout_height="611dp">
 
@@ -26,7 +27,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/tvTotal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -36,7 +37,7 @@
                 tools:ignore="RtlSymmetry" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_login"
+                android:id="@+id/btnPagar"
                 android:layout_width="123dp"
                 android:layout_height="59dp"
                 android:layout_margin="10dp"
