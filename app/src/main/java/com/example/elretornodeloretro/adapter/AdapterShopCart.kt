@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -38,6 +39,7 @@ class AdapterShopCart(var listProduct: MutableList<Game>, var context: Context):
         val image: ImageView = view.findViewById(R.id.imProductShop)
         val title: TextView = view.findViewById(R.id.tvTitleShop)
         val precio: TextView = view.findViewById(R.id.tvPriceShop)
+        val delete: ImageButton = view.findViewById(R.id.btnDeleteShop)
         @SuppressLint("ResourceAsColor")
         fun bind(
             game: Game,
@@ -67,7 +69,15 @@ class AdapterShopCart(var listProduct: MutableList<Game>, var context: Context):
             title.text = titleText
             precio.text = "${String.format("%.2f",game.PRECIO_FINAL)}€"
 
+            delete.setOnClickListener{
+                adapter.removeItem(pos)
+            }
         }
 
+    }
+    fun removeItem(position: Int) {
+        listProduct.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, listProduct.size)
     }
 }

@@ -86,6 +86,7 @@ class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): R
             platform.text = game.NOMBRE_PLATAFORMA.toString()
 
 
+
         }
     }
 

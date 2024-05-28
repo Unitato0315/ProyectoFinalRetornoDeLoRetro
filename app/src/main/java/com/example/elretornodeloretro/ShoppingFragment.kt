@@ -34,4 +34,10 @@ class ShoppingFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        adapter.notifyDataSetChanged()
+        binding.tvTotal.text = "${resources.getText(R.string.total)} ${String.format("%.2f",Almacen.totalPrice)}€"
+        binding.btnPagar.text = "${resources.getText(R.string.pagar)} (${Almacen.cart.size})"
+    }
 }

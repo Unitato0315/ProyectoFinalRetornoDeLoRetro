@@ -22,4 +22,5 @@
     <string name="codigo_postal">Codigo postal</string>
     <string name="pagar">Pagar</string>
     <string name="total">Total:</string>
+    <string name="add_carrito">Añadir carrito</string>
 </resources>
