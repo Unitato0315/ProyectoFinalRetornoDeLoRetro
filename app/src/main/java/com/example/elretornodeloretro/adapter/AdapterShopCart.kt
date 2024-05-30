@@ -13,12 +13,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.elretornodeloretro.R
+import com.example.elretornodeloretro.model.Almacen
 import com.example.elretornodeloretro.model.Game
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
 import java.io.File
 
-class AdapterShopCart(var listProduct: MutableList<Game>, var context: Context):RecyclerView.Adapter<AdapterShopCart.ViewHolder>() {
+class AdapterShopCart(var listProduct: MutableList<Game>, var context: Context,private val onItemRemoved: () -> Unit):RecyclerView.Adapter<AdapterShopCart.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listProduct[position]
         holder.bind(item,context,position,this)
@@ -70,14 +71,19 @@ class AdapterShopCart(var listProduct: MutableList<Game>, var context: Context):
             precio.text = "${String.format("%.2f",game.PRECIO_FINAL)}€"
 
             delete.setOnClickListener{
-                adapter.removeItem(pos)
+
+                adapter.removeItem(pos,game.PRECIO_FINAL)
+
             }
         }
 
     }
-    fun removeItem(position: Int) {
+    fun removeItem(position: Int,price:Float) {
+        Almacen.totalPrice -= price
         listProduct.removeAt(position)
+        onItemRemoved()
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, listProduct.size)
     }
+
 }

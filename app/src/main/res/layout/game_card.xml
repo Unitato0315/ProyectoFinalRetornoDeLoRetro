@@ -8,6 +8,7 @@
     tools:targetApi="s">
 
     <LinearLayout
+        android:id="@+id/liLaGame"
         android:layout_width="188dp"
         android:layout_height="186dp"
         android:layout_margin="5dp"

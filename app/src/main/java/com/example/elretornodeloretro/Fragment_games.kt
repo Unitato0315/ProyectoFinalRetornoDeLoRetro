@@ -1,84 +1,86 @@
 package com.example.elretornodeloretro
 
-import android.content.res.Resources
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.elretornodeloretro.adapter.AdapterGameCard
-import com.example.elretornodeloretro.adapter.AdapterViewPage
-import com.example.elretornodeloretro.databinding.ActivityMainBinding
 import com.example.elretornodeloretro.databinding.FragmentGamesBinding
 import com.example.elretornodeloretro.io.TokenManage
 import com.example.elretornodeloretro.io.data.RetrofitServiceFactory
 import com.example.elretornodeloretro.io.data.ServiceRetrofit
 import com.example.elretornodeloretro.model.Almacen
 import com.example.elretornodeloretro.model.Game
-import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class Fragment_games : Fragment() {
-    lateinit var binding: FragmentGamesBinding
-    lateinit var recyclerGames: RecyclerView
-    lateinit var myAdapter : AdapterGameCard
-    lateinit var service: ServiceRetrofit
-    lateinit var tokenManage: TokenManage
+    private var _binding: FragmentGamesBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var recyclerGames: RecyclerView
+    private lateinit var myAdapter: AdapterGameCard
+    private lateinit var service: ServiceRetrofit
+    private lateinit var tokenManage: TokenManage
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        _binding = FragmentGamesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        binding = FragmentGamesBinding.inflate(inflater,container,false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         service = RetrofitServiceFactory.makeRetrofitService(requireContext())
         tokenManage = TokenManage(requireContext())
 
         recyclerGames = binding.rvGames
         recyclerGames.setHasFixedSize(true)
-        recyclerGames.layoutManager = GridLayoutManager(requireContext(),2)
+        recyclerGames.layoutManager = GridLayoutManager(requireContext(), 2)
 
-
-        myAdapter = AdapterGameCard(Almacen.games.toMutableList(),requireContext())
-        recyclerGames.adapter =  myAdapter
+        myAdapter = AdapterGameCard(Almacen.games.toMutableList(), requireContext())
+        recyclerGames.adapter = myAdapter
 
         binding.swrGames.setOnRefreshListener {
             refreshData()
         }
 
-        return binding.root
+        refreshData() // Inicializa los datos al crear la vista
     }
 
-    private fun refreshData(){
+    private fun refreshData() {
         lifecycleScope.launch {
-            try{
-                val listGames = withContext(Dispatchers.IO){
+            try {
+                val listGames = withContext(Dispatchers.IO) {
                     service.listGames()
                 }
-                activity?.runOnUiThread {
-                    Almacen.games=listGames
-                    updateGames(Almacen.games)
+                if (isAdded) {  // Verifica si el fragmento está adjunto antes de usar el contexto
+                    activity?.runOnUiThread {
+                        Almacen.games = listGames
+                        updateGames(Almacen.games)
+                    }
                 }
-            }catch (e: Exception){
-                Toast.makeText(requireContext(),"Se ha producido un error",Toast.LENGTH_LONG).show()
+            } catch (e: Exception) {
+                if (isAdded) {  // Verifica si el fragmento está adjunto antes de usar el contexto
+                    Toast.makeText(requireContext(), "Se ha producido un error", Toast.LENGTH_LONG).show()
+                }
             }
+            binding.swrGames.isRefreshing = false
         }
-        binding.swrGames.isRefreshing=false
     }
-    private fun updateGames(games: Array<Game>){
-        myAdapter.listGames= games.toMutableList()
+
+    private fun updateGames(games: Array<Game>) {
+        myAdapter.listGames = games.toMutableList()
         myAdapter.notifyDataSetChanged()
     }
 
-    override fun onResume() {
-        super.onResume()
-        refreshData()
-    }
 
 }

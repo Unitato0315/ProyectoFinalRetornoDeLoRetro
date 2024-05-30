@@ -45,32 +45,17 @@ class MainActivity : AppCompatActivity() {
         //tokenManage.deleteToken()
 
         val context = this
-        //Con esto me permite realizar el login de la pagina (metodo post necesitan crear un modelo para poder enviarlo como un json, usar el serializableName para ello)
-        //lifecycleScope.launch {
-         //   val objRequest = PostModelLogin(
          //       username = "PAQUITO",
          //       password = "PRUEBA")
-
-         //   try {
-         //       val response = service.signIn(objRequest)
-         //       handleLoginSuccess(response)
-         //   }catch (e:HttpException){
-         //       if(e.code()==400){
-         //           handleLoginError()
-         //       }else{
-         //           Toast.makeText(context,"Se ha producido un error",Toast.LENGTH_SHORT).show()
-         //       }
-         //   }catch (e: Exception){
-         //       Toast.makeText(context,"Fallo en la solicitud",Toast.LENGTH_SHORT).show()
-         //   }
-
-        //}
-
         lifecycleScope.launch {
             val listGames = service.listGames()
+            val tipesSends = service.getTipeSend()
+            val tipesPays = service.getTipePay()
             runOnUiThread {
                 //showGamesPruebas(listGames)
                 Almacen.games = listGames
+                Almacen.tipesSend = tipesSends
+                Almacen.tipesPays = tipesPays
                 binding = ActivityMainBinding.inflate(layoutInflater)
                 setContentView(binding.root)
 

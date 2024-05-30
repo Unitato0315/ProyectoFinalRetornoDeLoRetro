@@ -8,6 +8,8 @@ import com.example.elretornodeloretro.model.User
 import com.example.elretornodeloretro.model.UserLogin
 import com.example.elretornodeloretro.model.InformationOrder
 import com.example.elretornodeloretro.model.ResponseOrder
+import com.example.elretornodeloretro.model.TipePay
+import com.example.elretornodeloretro.model.TipeSend
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -38,7 +40,15 @@ interface ServiceRetrofit {
         @Body u:User
     ): Response<Message>
 
-    @POST()
+    @GET("tiposEnvios")
+    suspend fun getTipeSend(
+    ): Array<TipeSend>
+
+    @GET("tiposPagos")
+    suspend fun getTipePay(
+    ): Array<TipePay>
+
+    @POST("pago")
     suspend fun createOrder(
         @Body o:InformationOrder
     ):Response<ResponseOrder>
