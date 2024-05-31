@@ -13,6 +13,7 @@ import com.example.elretornodeloretro.databinding.ActivitySingUpBinding
 import com.example.elretornodeloretro.io.TokenManage
 import com.example.elretornodeloretro.io.data.RetrofitServiceFactory
 import com.example.elretornodeloretro.io.data.ServiceRetrofit
+import com.example.elretornodeloretro.model.Almacen
 import com.example.elretornodeloretro.model.PostModelLogin
 import com.example.elretornodeloretro.model.User
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -104,6 +105,7 @@ class SingUpActivity : AppCompatActivity() {
                 runOnUiThread {
                     tokenManage.saveToken(request.token)
                     Toast.makeText(context,"Se ha iniciado sesion correctamente",Toast.LENGTH_SHORT).show()
+                    Almacen.startSession = 1
                     finish()
                 }
             }catch (e: HttpException){

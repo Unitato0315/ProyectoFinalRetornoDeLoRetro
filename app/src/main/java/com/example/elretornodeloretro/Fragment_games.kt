@@ -82,5 +82,9 @@ class Fragment_games : Fragment() {
         myAdapter.notifyDataSetChanged()
     }
 
+    override fun onResume() {
+        super.onResume()
+        refreshData()
+    }
 
 }

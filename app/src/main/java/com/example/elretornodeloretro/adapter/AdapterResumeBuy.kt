@@ -30,8 +30,8 @@ class AdapterResumeBuy(var listProduct: MutableList<Game>, var context: Context)
         return listProduct.size
     }
     class ViewHolder(view:View): RecyclerView.ViewHolder(view) {
-        val title: TextView = view.findViewById(R.id.tvTitleShop)
-        val precio: TextView = view.findViewById(R.id.tvPriceShop)
+        val title: TextView = view.findViewById(R.id.tvTitleResume)
+        val precio: TextView = view.findViewById(R.id.tvPriceResume)
         @SuppressLint("ResourceAsColor")
         fun bind(
             game: Game,
@@ -40,7 +40,7 @@ class AdapterResumeBuy(var listProduct: MutableList<Game>, var context: Context)
             adapter: AdapterResumeBuy
         ){
             title.text = game.TITULO
-            title.text = "${String.format("%.2f",game.PRECIO_FINAL)}€"
+            precio.text = "${String.format("%.2f",game.PRECIO_FINAL)}€"
         }
     }
 }

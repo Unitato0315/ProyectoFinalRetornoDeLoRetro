@@ -149,7 +149,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        if(tokenManage.getToken()!=""){
+        if(tokenManage.getToken()!="" && Almacen.startSession != 0){
+            Almacen.startSession = 0
             recreate()
         }
 

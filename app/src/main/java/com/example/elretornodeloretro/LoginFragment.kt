@@ -15,6 +15,7 @@ import com.example.elretornodeloretro.databinding.FragmentLoginBinding
 import com.example.elretornodeloretro.io.TokenManage
 import com.example.elretornodeloretro.io.data.RetrofitServiceFactory
 import com.example.elretornodeloretro.io.data.ServiceRetrofit
+import com.example.elretornodeloretro.model.Almacen
 import com.example.elretornodeloretro.model.PostModelLogin
 import com.example.elretornodeloretro.model.UserLogin
 import kotlinx.coroutines.delay
@@ -73,6 +74,7 @@ class LoginFragment : Fragment() {
     private fun handleLoginSuccess(successResponse: UserLogin?) {
         if (successResponse != null) {
             tokenManage.saveToken(successResponse.token)
+            Almacen.startSession = 1
             showLoadingDialog()
             loadingDialog.dismiss()
             Toast.makeText(requireContext(),"Se ha iniciado sesion correctamente",Toast.LENGTH_SHORT).show()

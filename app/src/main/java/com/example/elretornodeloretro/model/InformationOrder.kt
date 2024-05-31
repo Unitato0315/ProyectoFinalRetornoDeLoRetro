@@ -1,14 +1,14 @@
 package com.example.elretornodeloretro.model
 
 data class InformationOrder(
-    val cardNumber: String,
+    val cardNumber: Long,
     val cp: Int,
-    val cvv: String,
+    val cvv: Int,
     val direccion: String,
-    val expiryDate: String,
+    val expiryDate: Int,
     val idUsuario: Int,
     val localidad: String,
-    val productId: List<Int>,
+    val productId: MutableList<Int>,
     val provincia: String,
     val tipoEnvio: Int,
     val tipoPago: Int

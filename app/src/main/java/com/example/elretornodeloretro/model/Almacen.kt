@@ -8,4 +8,5 @@ object Almacen {
     lateinit var selectecGame : Game
     var tipesPays: Array<TipePay> = arrayOf()
     var tipesSend: Array<TipeSend> = arrayOf()
+    var startSession = 0
 }

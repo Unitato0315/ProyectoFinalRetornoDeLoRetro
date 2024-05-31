@@ -1,5 +1,6 @@
 package com.example.elretornodeloretro
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -36,9 +37,11 @@ class ShoppingFragment : Fragment() {
         recyclerShop.adapter = adapter
 
         binding.btnPagar.setOnClickListener {
-
+            if(Almacen.cart.size != 0){
+                val intent = Intent(context,PayActivity::class.java)
+                this.startActivity(intent)
+            }
         }
-
         return binding.root
     }
 
