@@ -145,7 +145,17 @@ class PayActivity : AppCompatActivity() {
                 cardNumber = labelCardNumber.text.toString().toLong()
                 cvv = labelCVV.text.toString().toInt()
                 expired = labelExpired.text.toString().toInt()
-                finalizar(send,pay,cardNumber,cvv,expired)
+                var validar = true
+
+                if(cardNumber < 1000000000000000){
+                    Toast.makeText(context, "El numero de la tarjeta no es correcto", Toast.LENGTH_SHORT).show()
+                    validar=false
+                }
+                if(validar){
+                    finalizar(send,pay,cardNumber,cvv,expired)
+                }
+            }else{
+                Toast.makeText(context, "No se han introducido todos los datos", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -184,7 +194,10 @@ class PayActivity : AppCompatActivity() {
             val response: ResponseOrder = service.createOrder(informationOrder)
             runOnUiThread {
                 if(response.success){
+                    Almacen.cart = mutableListOf()
+                    Almacen.totalPrice = 0f
                     Toast.makeText(context,response.message,Toast.LENGTH_LONG).show()
+                    finish()
                 }else{
                     Toast.makeText(context,response.message,Toast.LENGTH_LONG).show()
                 }

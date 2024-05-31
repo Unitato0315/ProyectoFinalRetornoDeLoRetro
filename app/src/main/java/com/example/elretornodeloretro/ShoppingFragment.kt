@@ -42,6 +42,13 @@ class ShoppingFragment : Fragment() {
                 this.startActivity(intent)
             }
         }
+
+        if(Almacen.cart.size==0){
+            binding.textView2.visibility = View.VISIBLE
+        }else{
+            binding.textView2.visibility = View.INVISIBLE
+        }
+
         return binding.root
     }
 
@@ -49,7 +56,11 @@ class ShoppingFragment : Fragment() {
         super.onResume()
         binding.tvTotal.text = "${resources.getText(R.string.total)} ${String.format("%.2f",Almacen.totalPrice)}€"
         binding.btnPagar.text = "${resources.getText(R.string.pagar)} (${Almacen.cart.size})"
-
+        if(Almacen.cart.size==0){
+            binding.textView2.visibility = View.VISIBLE
+        }else{
+            binding.textView2.visibility = View.INVISIBLE
+        }
         adapter.listProduct = Almacen.cart
         adapter.notifyDataSetChanged()
     }

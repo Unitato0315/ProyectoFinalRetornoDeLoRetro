@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -22,7 +24,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
 import java.io.File
 
-class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): RecyclerView.Adapter<AdapterGameCard.ViewHolder>() {
+class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): RecyclerView.Adapter<AdapterGameCard.ViewHolder>(),Filterable {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listGames[position]
@@ -88,6 +90,34 @@ class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): R
                 Almacen.selectecGame = game
                 var inte: Intent = Intent(context, GameDetailActivity::class.java)
                 ContextCompat.startActivity(context, inte, null)
+            }
+
+        }
+    }
+
+    override fun getFilter(): Filter {
+        return object :Filter(){
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val filterdList = mutableListOf<Game>()
+                if(constraint.isNullOrEmpty()){
+                    filterdList.addAll(listGames)
+                }else{
+                    val filterPatterm = constraint.toString().toLowerCase().trim()
+                    for (item in listGames){
+                        if(item.TITULO.toLowerCase().contains(filterPatterm)){
+                            filterdList.add(item)
+                        }
+                    }
+                }
+                val results = FilterResults()
+                results.values = filterdList
+                return results
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                listGames.clear()
+                listGames.addAll(results?.values as List<Game>)
+                notifyDataSetChanged()
             }
 
         }

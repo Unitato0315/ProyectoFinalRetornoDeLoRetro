@@ -26,4 +26,5 @@
     <string name="continuar">Continuar</string>
     <string name="metodo_envio">METODO ENVIO</string>
     <string name="metodo_pago">METODO PAGO</string>
+    <string name="no_se_han_a_adido_productos_al_carrito_todavia">No se han añadido productos al carrito todavia</string>
 </resources>

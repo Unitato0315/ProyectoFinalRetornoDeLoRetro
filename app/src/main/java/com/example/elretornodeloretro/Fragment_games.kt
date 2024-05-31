@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -52,6 +53,18 @@ class Fragment_games : Fragment() {
         binding.swrGames.setOnRefreshListener {
             refreshData()
         }
+
+        binding.svGames.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // No hacer nada aquí
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                myAdapter.filter.filter(newText)
+                return true
+            }
+        })
 
         refreshData() // Inicializa los datos al crear la vista
     }
