@@ -1,13 +1,17 @@
 package com.example.elretornodeloretro
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.elretornodeloretro.databinding.FragmentUserOptionBinding
+import com.example.elretornodeloretro.io.GeneralFuntion
 import com.example.elretornodeloretro.io.TokenManage
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,12 +32,62 @@ class UserOptionFragment : Fragment() {
     ): View? {
         binding = FragmentUserOptionBinding.inflate(layoutInflater, container,false)
         tokenManage = TokenManage(requireContext())
-        binding.btnBorrarToken.setOnClickListener {
+
+        val claim = GeneralFuntion.decodeJWT(tokenManage.getToken().toString())
+
+        if(claim!!["ID_ROL"].toString().toInt() == 99){
+            //binding.btnModificar.visibility = View.INVISIBLE
+            binding.btnModificar.isEnabled = false
+        }else{
+            //binding.btnModificar.visibility = View.VISIBLE
+            binding.btnModificar.isEnabled = true
+        }
+
+        binding.btnCerrarSesion.setOnClickListener {
             tokenManage.deleteToken()
             val intent = Intent(requireActivity(), MainActivity::class.java)
             requireActivity().finish()
             requireActivity().startActivity(intent)
         }
+
+        binding.btnAcercaDe.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("ACERCA DE: ")
+                .setMessage("Este es un proyecto creado por Jose Vicente Vargas Mestanza. Creado para el proyecto final de DAM 2023/24")
+                .show()
+        }
+
+        binding.btnContactanos.setOnClickListener {
+            val destinatario = "jvsonic9@gmail.com"
+            val asunto = "Contacto con la tienda"
+
+
+            // Crear un Intent con la acción ACTION_SENDTO para enviar el correo
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:") // Establecer el esquema como "mailto:"
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(destinatario)) // Establecer el destinatario del correo
+                putExtra(Intent.EXTRA_SUBJECT, asunto) // Establecer el asunto del correo
+                putExtra(Intent.EXTRA_TEXT, "") // Establecer el cuerpo del correo
+            }
+
+            // Verificar si existe alguna aplicación de correo electrónico para manejar el intent
+
+            startActivity(intent)
+        }
+
+        binding.btnPedidos.setOnClickListener {
+            val inte = Intent(requireActivity(),PedidosActivity::class.java)
+            requireActivity().startActivity(inte)
+        }
+
+        binding.btnModificar.setOnClickListener {
+            if(claim!!["ID_ROL"].toString().toInt() != 99){
+                Toast.makeText(context,"En desarrollo", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(context,"Un usuario administrador no necesita datos de facturacion", Toast.LENGTH_SHORT).show()
+            }
+        }
+
 
         return binding.root
     }

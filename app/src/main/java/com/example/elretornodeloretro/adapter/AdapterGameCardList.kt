@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -28,10 +30,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-class AdapterGameCardList(var listGames: MutableList<Game>, var context: Context): RecyclerView.Adapter<AdapterGameCardList.ViewHolder>() {
+class AdapterGameCardList(var listGames: MutableList<Game>, var context: Context): RecyclerView.Adapter<AdapterGameCardList.ViewHolder>(),Filterable {
 
     lateinit var tokenManage: TokenManage
     lateinit var idRol: String
+    private var listGamesFull: MutableList<Game> = listGames
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listGames[position]
         holder.bind(item,context,position,this)
@@ -55,6 +58,33 @@ class AdapterGameCardList(var listGames: MutableList<Game>, var context: Context
         listGames.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, listGames.size)
+    }
+    override fun getFilter(): Filter {
+        return object : Filter(){
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val filterdList = mutableListOf<Game>()
+                if(constraint.isNullOrEmpty()){
+                    filterdList.addAll(listGamesFull)
+                }else{
+                    val filterPatterm = constraint.toString().toLowerCase().trim()
+                    for (item in listGames){
+                        if(item.TITULO.toLowerCase().contains(filterPatterm)){
+                            filterdList.add(item)
+                        }
+                    }
+                }
+                val results = FilterResults()
+                results.values = filterdList
+                return results
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                listGames.clear()
+                listGames.addAll(results?.values as List<Game>)
+                notifyDataSetChanged()
+            }
+
+        }
     }
     class ViewHolder(view:View): RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.imGame)
@@ -138,6 +168,7 @@ class AdapterGameCardList(var listGames: MutableList<Game>, var context: Context
                 }
             }
         }
+
     }
 
 }

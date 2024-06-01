@@ -26,6 +26,7 @@ import java.io.File
 
 class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): RecyclerView.Adapter<AdapterGameCard.ViewHolder>(),Filterable {
 
+    private var listGamesFull: MutableList<Game> = listGames.toMutableList()
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listGames[position]
         holder.bind(item,context,position,this)
@@ -100,7 +101,7 @@ class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): R
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val filterdList = mutableListOf<Game>()
                 if(constraint.isNullOrEmpty()){
-                    filterdList.addAll(listGames)
+                    filterdList.addAll(listGamesFull)
                 }else{
                     val filterPatterm = constraint.toString().toLowerCase().trim()
                     for (item in listGames){

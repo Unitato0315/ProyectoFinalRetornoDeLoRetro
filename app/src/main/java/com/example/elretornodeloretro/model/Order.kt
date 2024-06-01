@@ -11,8 +11,10 @@ data class Order(
     val ID_USUARIO: Int,
     val LOCALIDAD: String,
     val NOMBRE: String,
+    val NOMBRE_ESTADO: String,
     val PRECIO: Double,
     val PROVINCIA: String,
     val TELEFONO: Int,
-    val TIPO_ENVIO: String
+    val TIPO_ENVIO: String,
+    val TOTAL:Float
 )

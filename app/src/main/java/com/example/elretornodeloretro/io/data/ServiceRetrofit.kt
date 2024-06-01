@@ -7,6 +7,8 @@ import com.example.elretornodeloretro.model.PostModelLogin
 import com.example.elretornodeloretro.model.User
 import com.example.elretornodeloretro.model.UserLogin
 import com.example.elretornodeloretro.model.InformationOrder
+import com.example.elretornodeloretro.model.Order
+import com.example.elretornodeloretro.model.ProductOrder
 import com.example.elretornodeloretro.model.ResponseOrder
 import com.example.elretornodeloretro.model.TipePay
 import com.example.elretornodeloretro.model.TipeSend
@@ -53,15 +55,19 @@ interface ServiceRetrofit {
         @Body o:InformationOrder
     ):ResponseOrder
 
-    @GET()
+    @GET("pago/{id}")
     suspend fun getOrder(
         @Path("id")id:Int
-    ): Response<Void>
+    ): Array<Order>
 
-    @GET()
+    @GET("pagos")
+    suspend fun getAllOrder(
+    ): Array<Order>
+
+    @GET("pago/producto/{id}")
     suspend fun getProductOrder(
-
-    )
+        @Path("id")id:Int
+    ):Array<ProductOrder>
 }
 
 object RetrofitServiceFactory{

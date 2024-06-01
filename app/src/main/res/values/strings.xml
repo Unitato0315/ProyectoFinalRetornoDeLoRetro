@@ -27,4 +27,9 @@
     <string name="metodo_envio">METODO ENVIO</string>
     <string name="metodo_pago">METODO PAGO</string>
     <string name="no_se_han_a_adido_productos_al_carrito_todavia">No se han añadido productos al carrito todavia</string>
+    <string name="opciones_usuario">OPCIONES USUARIO</string>
+    <string name="cerrar_sesion">Cerrar sesion</string>
+    <string name="acerca_de">Acerca de</string>
+    <string name="modificar_datos">Modificar datos</string>
+    <string name="ver_pedidos">Ver pedidos</string>
 </resources>

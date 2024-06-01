@@ -9,4 +9,6 @@ object Almacen {
     var tipesPays: Array<TipePay> = arrayOf()
     var tipesSend: Array<TipeSend> = arrayOf()
     var startSession = 0
+    var pedidos: MutableList<Order> = mutableListOf()
+    var gamesPedidos: MutableList<ProductOrder> = mutableListOf()
 }
