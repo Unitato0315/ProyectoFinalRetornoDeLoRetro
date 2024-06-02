@@ -118,7 +118,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edProvincia"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:maxLength="100" />
 
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -138,7 +139,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edLocalidad"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:maxLength="100" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -163,7 +165,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edDireccion"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:maxLength="100" />
 
 
                 </com.google.android.material.textfield.TextInputLayout>

@@ -31,6 +31,7 @@ class PayActivity : AppCompatActivity() {
     lateinit var recycler: RecyclerView
     lateinit var service: ServiceRetrofit
     lateinit var context: Context
+    lateinit var tokenManage: TokenManage
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,7 +45,7 @@ class PayActivity : AppCompatActivity() {
         }
         context = this
         service = RetrofitServiceFactory.makeRetrofitService(this)
-
+        tokenManage = TokenManage(this)
         recycler = binding.rvResumen
         recycler.setHasFixedSize(true)
         recycler.layoutManager = GridLayoutManager(this,1)
@@ -111,6 +112,20 @@ class PayActivity : AppCompatActivity() {
 
         binding.btnContinuar.setOnClickListener {
             validar(selectecSend,selectecPays)
+        }
+
+        val claim = GeneralFuntion.decodeJWT(tokenManage.getToken().toString())
+        val idUsuario = claim!!["ID_USUARIO"].toString().toInt()
+
+        lifecycleScope.launch {
+            val userData = service.getUser(idUsuario)[0]
+            runOnUiThread {
+                binding.edDireccion.setText(userData.DIRECCION)
+                binding.edLocalidad.setText(userData.LOCALIDAD)
+                binding.edCP.setText(userData.CODIGO_POSTAL.toString())
+                binding.edProvincia.setText(userData.PROVINCIA)
+                binding.edTelefono.setText(userData.TELEFONO.toString())
+            }
         }
 
         setContentView(binding.root)

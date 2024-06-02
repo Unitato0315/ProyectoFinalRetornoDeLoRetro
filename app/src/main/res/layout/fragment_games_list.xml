@@ -25,12 +25,23 @@
 
             <SearchView
                 android:id="@+id/svGamesList"
-                android:layout_width="match_parent"
+                android:layout_width="305dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:background="@drawable/rounded_corners"
                 android:iconifiedByDefault="false"
                 android:queryHint="Buscar..." />
+
+            <ImageButton
+                android:id="@+id/btnCrearProducto"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/extraColor3"
+                android:scaleType="fitCenter"
+                android:src="@drawable/plus_solid" />
         </LinearLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

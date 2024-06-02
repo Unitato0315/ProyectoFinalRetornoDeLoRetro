@@ -2,6 +2,7 @@ package com.example.elretornodeloretro
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -60,6 +61,11 @@ class PedidosActivity : AppCompatActivity() {
                 service.getOrder(claim!!["ID_USUARIO"].toString().toInt()).toMutableList()
             }
             runOnUiThread{
+                if(listPedidos.size == 0){
+                    binding.textView2.visibility = View.VISIBLE
+                }else{
+                    binding.textView2.visibility = View.INVISIBLE
+                }
                 adapterPedidos = AdapterPedidos(listPedidos,context)
                 recycler.adapter = adapterPedidos
             }

@@ -1,22 +1,16 @@
-package com.example.elretornodeloretro.model
+package com.example.elretornodeloretro
 
 import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
-import com.example.elretornodeloretro.R
-import com.example.elretornodeloretro.adapter.AdapterPedidos
 import com.example.elretornodeloretro.databinding.ActivityModificarDatosFacturacionBinding
-import com.example.elretornodeloretro.databinding.ActivityPedidosBinding
 import com.example.elretornodeloretro.io.GeneralFuntion
 import com.example.elretornodeloretro.io.TokenManage
 import com.example.elretornodeloretro.io.data.RetrofitServiceFactory
 import com.example.elretornodeloretro.io.data.ServiceRetrofit
+import com.example.elretornodeloretro.model.UserDataModify
 import kotlinx.coroutines.launch
 
 class ModificarDatosFacturacion : AppCompatActivity() {

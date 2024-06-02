@@ -41,8 +41,6 @@ class SingUpActivity : AppCompatActivity() {
         binding.btnRegistr.setOnClickListener {
             if(validar()){
                 createUser(this)
-            }else{
-                showDialog(this)
             }
         }
     }
@@ -85,15 +83,6 @@ class SingUpActivity : AppCompatActivity() {
             }
         }
     }
-    fun showDialog(context: Context){
-        MaterialAlertDialogBuilder(context)
-            .setTitle("Se ha producido un error")
-            .setMessage(msg)
-            .setPositiveButton("Ok"){dialog, which ->
-            }
-            .create()
-            .show()
-    }
     fun signUp(context: Context){
         lifecycleScope.launch {
             val objRequest2 = PostModelLogin(
@@ -120,53 +109,64 @@ class SingUpActivity : AppCompatActivity() {
         }
     }
     fun validar(): Boolean{
-        var validate: Boolean = true
-        msg = ""
         if(binding.edUserReg.text.toString().isNullOrBlank()){
-            msg += "Tienes que introducir un usuario\n"
-            validate = false
+            Toast.makeText(this,"No puedes dejar vacio el username",Toast.LENGTH_SHORT).show()
+            return false
         }
         if(binding.edEmailReg.text.toString().isNullOrBlank()){
-            msg += "Tienes que introducir un email\n"
-            validate = false
+            Toast.makeText(this,"No puedes dejar vacio el email",Toast.LENGTH_SHORT).show()
+            return false
+        }else{
+            val emailPattern = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}\$"
+            if(!binding.edEmailReg.text.toString().matches(emailPattern.toRegex())){
+                Toast.makeText(this,"Tienes que introducir un email valido",Toast.LENGTH_SHORT).show()
+                return false
+            }
         }
         if(binding.edPassReg.text.toString().isNullOrBlank()){
-            msg += "Tienes que introducir una contraseña\n"
-            validate = false
+            Toast.makeText(this,"No puedes dejar vacia la contraseña",Toast.LENGTH_SHORT).show()
+            return false
+        }else{
+            val passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]{8,}\$"
+            if(!binding.edPassReg.text.toString().matches(passwordPattern.toRegex())){
+                Toast.makeText(this,"La contraseña no es valida\n-8 Caracteres\n-1 Mayuscula y 1 Minuscula\n 1Caracter especial",Toast.LENGTH_LONG).show()
+                return false
+            }
         }
         if(binding.edConfReg.text.toString().isNullOrBlank()){
-            msg += "Tienes que confirmar la contraseña\n"
-            validate = false
+            Toast.makeText(this,"No puedes dejar vacio la confirmacion de contraseña",Toast.LENGTH_SHORT).show()
+            return false
         }else if(binding.edConfReg.text.toString()!=binding.edPassReg.text.toString()){
-            validate = false
+            Toast.makeText(this,"No coinciden las contraseñas",Toast.LENGTH_SHORT).show()
+            return false
         }
         if(binding.edNombre.text.toString().isNullOrBlank()){
-            msg += "Tienes que introducir el nombre\n"
-            validate = false
+            Toast.makeText(this,"No puedes dejar vacio el nombre",Toast.LENGTH_SHORT).show()
+            return false
         }
         if(binding.edApellido.text.toString().isNullOrBlank()){
-            msg += "Tienes que introducido el apellido\n"
-            validate = false
+            Toast.makeText(this,"No puedes dejar vacio los apellidos",Toast.LENGTH_SHORT).show()
+            return false
 
         }
         if(binding.edDni.text.toString().isNullOrBlank()){
-            validate = false
-            msg += "Tienes que introducir un DNI valido\n"
+            Toast.makeText(this,"No puedes dejar vacio el DNI",Toast.LENGTH_SHORT).show()
+            return false
         }else{
             val dniNie: String = binding.edDni.text.toString()
             val dniPattern = Regex("^[0-9]{8}[A-HJ-NP-TV-Z]$")
             val niePattern = Regex("^[XYZ][0-9]{7}[A-Z]$")
 
             if (!dniNie.matches(dniPattern) && !dniNie.matches(niePattern)) {
-                msg += "Se ha introducido mal el dni\n"
-                validate = false
+                Toast.makeText(this,"No es un dni valido",Toast.LENGTH_SHORT).show()
+                return false
             }
         }
         if(!binding.cbCondiciones.isChecked){
-            msg += "Tienes que aceptar los terminos y condiciones\n"
-            validate = false
+            Toast.makeText(this,"No has aceptado los terminos y condiciones",Toast.LENGTH_SHORT).show()
+            return false
         }
 
-        return validate
+        return true
     }
 }

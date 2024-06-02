@@ -2,6 +2,7 @@ package com.example.elretornodeloretro.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
@@ -14,11 +15,15 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.elretornodeloretro.CrearModificarProducto
+import com.example.elretornodeloretro.GameDetailActivity
 import com.example.elretornodeloretro.R
 import com.example.elretornodeloretro.io.GeneralFuntion
 import com.example.elretornodeloretro.io.TokenManage
 import com.example.elretornodeloretro.io.data.RetrofitServiceFactory
+import com.example.elretornodeloretro.model.Almacen
 import com.example.elretornodeloretro.model.Game
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Firebase
@@ -125,7 +130,11 @@ class AdapterGameCardList(var listGames: MutableList<Game>, var context: Context
             }
 
             modify.setOnClickListener {
-                Toast.makeText(context,"Modificar", Toast.LENGTH_SHORT).show()
+                Almacen.selectecGame = game
+                var inte: Intent = Intent(context, CrearModificarProducto::class.java).apply {
+                    putExtra("modificar",true)
+                }
+                ContextCompat.startActivity(context, inte, null)
             }
 
         }

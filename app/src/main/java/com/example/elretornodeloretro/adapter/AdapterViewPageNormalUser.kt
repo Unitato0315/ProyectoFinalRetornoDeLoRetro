@@ -3,11 +3,11 @@ package com.example.elretornodeloretro.adapter
 import android.content.res.Resources
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.elretornodeloretro.ChatFragment
 import com.example.elretornodeloretro.Fragment_games
 import com.example.elretornodeloretro.MainActivity
 import com.example.elretornodeloretro.ShoppingFragment
 import com.example.elretornodeloretro.UserOptionFragment
-import com.example.elretornodeloretro.ChatFragment
 
 class AdapterViewPageNormalUser (fragment: MainActivity): FragmentStateAdapter(fragment) {
     private val fragmentList = listOf(

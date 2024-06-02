@@ -9,10 +9,13 @@ import com.example.elretornodeloretro.model.User
 import com.example.elretornodeloretro.model.UserLogin
 import com.example.elretornodeloretro.model.InformationOrder
 import com.example.elretornodeloretro.model.Order
+import com.example.elretornodeloretro.model.Plataforma
+import com.example.elretornodeloretro.model.ProductModiCreate
 import com.example.elretornodeloretro.model.ProductOrder
 import com.example.elretornodeloretro.model.ResponseOrder
 import com.example.elretornodeloretro.model.TipePay
 import com.example.elretornodeloretro.model.TipeSend
+import com.example.elretornodeloretro.model.Tipo
 import com.example.elretornodeloretro.model.UserData
 import com.example.elretornodeloretro.model.UserDataModify
 import okhttp3.OkHttpClient
@@ -89,6 +92,26 @@ interface ServiceRetrofit {
         @Path("id")id:Int,
         @Body o: UserDataModify
     ):Message
+
+    @GET("api/tipos")
+    suspend fun getTipos(
+    ):Array<Tipo>
+
+    @GET("api/plataforma")
+    suspend fun getPlataforma(
+    ):Array<Plataforma>
+
+    @POST("api/game")
+    suspend fun createGame(
+        @Body o:ProductModiCreate
+    ):Message
+
+    @PUT("api/game/{id}")
+    suspend fun modifyGame(
+        @Path("id")id:Int,
+        @Body o:ProductModiCreate
+    ):Message
+
 }
 
 object RetrofitServiceFactory{

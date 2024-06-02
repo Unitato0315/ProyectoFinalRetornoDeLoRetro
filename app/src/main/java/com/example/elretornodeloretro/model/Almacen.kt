@@ -12,4 +12,6 @@ object Almacen {
     var pedidos: MutableList<Order> = mutableListOf()
     var gamesPedidos: MutableList<ProductOrder> = mutableListOf()
     lateinit var selectecPedido : Order
+    var tipos: MutableList<Tipo> = mutableListOf()
+    var plataformas : MutableList<Plataforma> = mutableListOf()
 }

@@ -51,11 +51,15 @@ class MainActivity : AppCompatActivity() {
             val listGames = service.listGames()
             val tipesSends = service.getTipeSend()
             val tipesPays = service.getTipePay()
+            val tipos = service.getTipos()
+            val plataformas = service.getPlataforma()
             runOnUiThread {
                 //showGamesPruebas(listGames)
                 Almacen.games = listGames
                 Almacen.tipesSend = tipesSends
                 Almacen.tipesPays = tipesPays
+                Almacen.plataformas = plataformas.toMutableList()
+                Almacen.tipos = tipos.toMutableList()
                 binding = ActivityMainBinding.inflate(layoutInflater)
                 setContentView(binding.root)
 

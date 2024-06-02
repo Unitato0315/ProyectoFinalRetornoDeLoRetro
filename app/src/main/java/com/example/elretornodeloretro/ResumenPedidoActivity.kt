@@ -113,16 +113,52 @@ class ResumenPedidoActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.opcion_enviar -> {
-                cambiarEstado(2)
+                MaterialAlertDialogBuilder(context)
+                    .setTitle("ENVIAR PEDIDO Nº ${Almacen.selectecPedido.ID_PEDIDO}")
+                    .setMessage("¿Estas seguro que se ha enviado este pedido?")
+                    .setPositiveButton("Sí"){dialog, which ->
+                        cambiarEstado(2)
+                    }.setNegativeButton("No"){dialog, which ->
+                        dialog.dismiss()
+                    }
+                    .create()
+                    .show()
             }
             R.id.opcion_cancelar -> {
-                cambiarEstado(5)
+                MaterialAlertDialogBuilder(context)
+                    .setTitle("CANCELAR PEDIDO Nº ${Almacen.selectecPedido.ID_PEDIDO}")
+                    .setMessage("¿Estas seguro que quieres cancelar este envio?")
+                    .setPositiveButton("Sí"){dialog, which ->
+                        cambiarEstado(5)
+                    }.setNegativeButton("No"){dialog, which ->
+                        dialog.dismiss()
+                    }
+                    .create()
+                    .show()
             }
             R.id.opcion_entregado -> {
-                cambiarEstado(3)
+                MaterialAlertDialogBuilder(context)
+                    .setTitle(" PEDIDO Nº ${Almacen.selectecPedido.ID_PEDIDO} ENTREGADO")
+                    .setMessage("¿Estas seguro que se ha entregado este pedido?")
+                    .setPositiveButton("Sí"){dialog, which ->
+                        cambiarEstado(3)
+                    }.setNegativeButton("No"){dialog, which ->
+                        dialog.dismiss()
+                    }
+                    .create()
+                    .show()
             }
             R.id.opcion_reembolso ->{
-                cambiarEstado(4)
+                MaterialAlertDialogBuilder(context)
+                    .setTitle("REEMBOLSO PEDIDO Nº ${Almacen.selectecPedido.ID_PEDIDO}")
+                    .setMessage("¿Estas seguro que quieres pedir el reembolso de este pedido?")
+                    .setPositiveButton("Sí"){dialog, which ->
+                        cambiarEstado(4)
+                    }.setNegativeButton("No"){dialog, which ->
+                        dialog.dismiss()
+                    }
+                    .create()
+                    .show()
             }
         }
         return super.onOptionsItemSelected(item)

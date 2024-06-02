@@ -40,4 +40,10 @@
     <string name="telefono">Telefono</string>
     <string name="metodo_pago_2">Metodo pago</string>
     <string name="modificar">Modificar</string>
+    <string name="crear_producto">Crear producto</string>
+    <string name="tipo">Tipo</string>
+    <string name="descripci_n">Descripción</string>
+    <string name="plataforma">Plataforma</string>
+    <string name="precio">Precio</string>
+    <string name="no_se_han_realizado_ningun_pedido">No se han realizado ningun pedido</string>
 </resources>

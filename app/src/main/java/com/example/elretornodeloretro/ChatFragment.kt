@@ -34,7 +34,7 @@ class ChatFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_white_list, container, false)
+        return inflater.inflate(R.layout.fragment_chat, container, false)
     }
 
     companion object {
@@ -44,7 +44,7 @@ class ChatFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment whiteListFragment.
+         * @return A new instance of fragment ChatFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic

@@ -11,7 +11,6 @@ import android.widget.Toast
 import com.example.elretornodeloretro.databinding.FragmentUserOptionBinding
 import com.example.elretornodeloretro.io.GeneralFuntion
 import com.example.elretornodeloretro.io.TokenManage
-import com.example.elretornodeloretro.model.ModificarDatosFacturacion
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 // TODO: Rename parameter arguments, choose names that match
@@ -83,7 +82,7 @@ class UserOptionFragment : Fragment() {
 
         binding.btnModificar.setOnClickListener {
             if(claim!!["ID_ROL"].toString().toInt() != 99){
-                val inte = Intent(requireActivity(),ModificarDatosFacturacion::class.java)
+                val inte = Intent(requireActivity(), ModificarDatosFacturacion::class.java)
                 requireActivity().startActivity(inte)
             }else{
                 Toast.makeText(context,"Un usuario administrador no necesita datos de facturacion", Toast.LENGTH_SHORT).show()
