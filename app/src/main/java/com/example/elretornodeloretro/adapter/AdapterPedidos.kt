@@ -6,10 +6,13 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.elretornodeloretro.GameDetailActivity
 import com.example.elretornodeloretro.R
+import com.example.elretornodeloretro.ResumenPedidoActivity
 import com.example.elretornodeloretro.io.GeneralFuntion
 import com.example.elretornodeloretro.io.TokenManage
 import com.example.elretornodeloretro.model.Almacen
@@ -27,11 +30,6 @@ class AdapterPedidos(var listPedidos: MutableList<Order>, var context: Context):
         vista = LayoutInflater.from(parent.context).inflate(R.layout.pedidos_card,parent,false)
         val viewHolder = AdapterPedidos.ViewHolder(vista!!)
 
-        viewHolder.itemView.setOnClickListener {
-            //val intent = Intent(context, GameDetailActivity::class.java)
-            //context.startActivity(intent)
-        }
-
         return viewHolder
     }
 
@@ -43,6 +41,7 @@ class AdapterPedidos(var listPedidos: MutableList<Order>, var context: Context):
         val precio: TextView = view.findViewById(R.id.tvTotalPedido)
         val nPedido: TextView = view.findViewById(R.id.tvNPedido)
         val estado_nombre: TextView = view.findViewById(R.id.tvUsuario)
+        val linearLayout: LinearLayout = view.findViewById(R.id.lnPedidoLista)
         lateinit var tokenManage : TokenManage
         @SuppressLint("ResourceAsColor")
         fun bind(
@@ -58,10 +57,18 @@ class AdapterPedidos(var listPedidos: MutableList<Order>, var context: Context):
             nPedido.text = "Nº "+pedido.ID_PEDIDO.toString()
             precio.text = "${String.format("%.2f",pedido.TOTAL)}€"
 
-            if(claim!!["ID_ROL"] == 99){
+            if(claim!!["ID_ROL"].toString().toInt() == 99){
                 estado_nombre.text = pedido.NOMBRE_ESTADO+"\n"+pedido.NOMBRE+" "+pedido.APELLIDO
             }else{
                 estado_nombre.text = pedido.NOMBRE_ESTADO
+            }
+
+            linearLayout.setOnClickListener {
+                Almacen.selectecPedido = pedido
+
+
+                var inte: Intent = Intent(context, ResumenPedidoActivity::class.java)
+                ContextCompat.startActivity(context, inte, null)
             }
         }
     }

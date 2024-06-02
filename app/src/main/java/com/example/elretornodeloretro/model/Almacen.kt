@@ -11,4 +11,5 @@ object Almacen {
     var startSession = 0
     var pedidos: MutableList<Order> = mutableListOf()
     var gamesPedidos: MutableList<ProductOrder> = mutableListOf()
+    lateinit var selectecPedido : Order
 }

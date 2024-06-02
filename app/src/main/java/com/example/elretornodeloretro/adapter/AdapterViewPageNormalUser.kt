@@ -7,13 +7,13 @@ import com.example.elretornodeloretro.Fragment_games
 import com.example.elretornodeloretro.MainActivity
 import com.example.elretornodeloretro.ShoppingFragment
 import com.example.elretornodeloretro.UserOptionFragment
-import com.example.elretornodeloretro.WhiteListFragment
+import com.example.elretornodeloretro.ChatFragment
 
 class AdapterViewPageNormalUser (fragment: MainActivity): FragmentStateAdapter(fragment) {
     private val fragmentList = listOf(
         Fragment_games(),
         ShoppingFragment(),
-        WhiteListFragment(),
+        ChatFragment(),
         UserOptionFragment()
         // Agrega aquí otros fragmentos si es necesario
     )
@@ -28,7 +28,7 @@ class AdapterViewPageNormalUser (fragment: MainActivity): FragmentStateAdapter(f
                 ShoppingFragment()
             }
             2->{
-                WhiteListFragment()
+                ChatFragment()
             }
             3->{
                 UserOptionFragment()

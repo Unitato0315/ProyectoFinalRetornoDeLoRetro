@@ -1,21 +1,17 @@
 package com.example.elretornodeloretro.model
 
-data class Order(
+data class UserData(
     val APELLIDO: String,
-    val CP: Int,
+    val CODIGO_POSTAL: Int,
     val DIRECCION: String,
+    val DNI: String,
     val EMAIL: String,
-    val FECHA: String,
-    val FORMA_DE_PAGO: String,
-    val ID_PEDIDO: Int,
+    val ID_ROL: Int,
     val ID_USUARIO: Int,
     val LOCALIDAD: String,
     val NOMBRE: String,
-    val NOMBRE_ESTADO: String,
-    val PRECIO: Double,
+    val PASSWORD: String,
     val PROVINCIA: String,
     val TELEFONO: Int,
-    val TIPO_ENVIO: String,
-    val TOTAL:Float,
-    var ID_ESTADO_PEDIDO: Int
+    val USERNAME: String
 )

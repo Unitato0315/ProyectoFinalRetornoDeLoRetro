@@ -188,7 +188,8 @@ class PayActivity : AppCompatActivity() {
             productId = listId,
             provincia = binding.edProvincia.text.toString(),
             tipoEnvio = Almacen.tipesSend[send].ID_ENVIO,
-            tipoPago = Almacen.tipesPays[pay].ID_PAGO
+            tipoPago = Almacen.tipesPays[pay].ID_PAGO,
+            total = Almacen.totalPrice
         )
         lifecycleScope.launch {
             val response: ResponseOrder = service.createOrder(informationOrder)

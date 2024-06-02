@@ -26,6 +26,7 @@ class PedidosActivity : AppCompatActivity() {
     lateinit var service: ServiceRetrofit
     lateinit var tokenManage: TokenManage
     lateinit var context: Context
+    var claim: Map<String,Any>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPedidosBinding.inflate(layoutInflater)
@@ -36,14 +37,20 @@ class PedidosActivity : AppCompatActivity() {
         recycler = binding.rvPedidos
         recycler.setHasFixedSize(true)
         recycler.layoutManager = GridLayoutManager(this,1)
-        val claim = GeneralFuntion.decodeJWT(tokenManage.getToken().toString())
+        claim = GeneralFuntion.decodeJWT(tokenManage.getToken().toString())
+        binding.tbPedidos.title = "PEDIDOS"
         setSupportActionBar(binding.tbPedidos)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.tbPedidos.title = "PEDIDOS"
+
         binding.tbPedidos.setNavigationOnClickListener {
             finish()
         }
+        binding.tbPedidos.title = "PEDIDOS"
+        cargarPedidos()
 
+    }
+
+    fun cargarPedidos(){
         lifecycleScope.launch {
             var listPedidos: MutableList<Order> = mutableListOf()
             listPedidos = if(claim!!["ID_ROL"].toString().toInt()==99) {
@@ -53,11 +60,14 @@ class PedidosActivity : AppCompatActivity() {
                 service.getOrder(claim!!["ID_USUARIO"].toString().toInt()).toMutableList()
             }
             runOnUiThread{
-                //Toast.makeText(context,listPedidos.size,Toast.LENGTH_SHORT).show()
                 adapterPedidos = AdapterPedidos(listPedidos,context)
                 recycler.adapter = adapterPedidos
             }
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        cargarPedidos()
     }
 }

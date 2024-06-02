@@ -30,6 +30,14 @@
     <string name="opciones_usuario">OPCIONES USUARIO</string>
     <string name="cerrar_sesion">Cerrar sesion</string>
     <string name="acerca_de">Acerca de</string>
-    <string name="modificar_datos">Modificar datos</string>
+    <string name="modificar_datos">Modificar datos facturacion</string>
     <string name="ver_pedidos">Ver pedidos</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="enviar">Enviar</string>
+    <string name="reembolso">Reembolso</string>
+    <string name="recibido">Recibido</string>
+    <string name="metodo_envio_2">Metodo envio</string>
+    <string name="telefono">Telefono</string>
+    <string name="metodo_pago_2">Metodo pago</string>
+    <string name="modificar">Modificar</string>
 </resources>

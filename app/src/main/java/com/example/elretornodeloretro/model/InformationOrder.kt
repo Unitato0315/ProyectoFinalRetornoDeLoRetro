@@ -11,5 +11,6 @@ data class InformationOrder(
     val productId: MutableList<Int>,
     val provincia: String,
     val tipoEnvio: Int,
-    val tipoPago: Int
+    val tipoPago: Int,
+    val total: Float
 )

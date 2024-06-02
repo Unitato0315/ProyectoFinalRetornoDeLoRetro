@@ -1,6 +1,7 @@
 package com.example.elretornodeloretro.io.data
 
 import android.content.Context
+import com.example.elretornodeloretro.model.Estado
 import com.example.elretornodeloretro.model.Game
 import com.example.elretornodeloretro.model.Message
 import com.example.elretornodeloretro.model.PostModelLogin
@@ -12,6 +13,8 @@ import com.example.elretornodeloretro.model.ProductOrder
 import com.example.elretornodeloretro.model.ResponseOrder
 import com.example.elretornodeloretro.model.TipePay
 import com.example.elretornodeloretro.model.TipeSend
+import com.example.elretornodeloretro.model.UserData
+import com.example.elretornodeloretro.model.UserDataModify
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -20,6 +23,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 
@@ -64,10 +68,27 @@ interface ServiceRetrofit {
     suspend fun getAllOrder(
     ): Array<Order>
 
-    @GET("pago/producto/{id}")
+    @GET("pago/productos/{id}")
     suspend fun getProductOrder(
         @Path("id")id:Int
     ):Array<ProductOrder>
+
+    @PUT("cambiarEstado/{id}")
+    suspend fun setEstado(
+        @Path("id")id:Int,
+        @Body o: Estado
+    ):Message
+
+    @GET("usuario/{id}")
+    suspend fun getUser(
+        @Path("id")id:Int
+    ):Array<UserData>
+
+    @PUT("datosFacturacion/{id}")
+    suspend fun setDatosUser(
+        @Path("id")id:Int,
+        @Body o: UserDataModify
+    ):Message
 }
 
 object RetrofitServiceFactory{

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/opcion_cancelar"
+        android:icon="@drawable/ban_solid"
+        android:title="@string/cancelar"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/opcion_enviar"
+        android:icon="@drawable/envelope_solid"
+        android:title="@string/enviar"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/opcion_reembolso"
+        android:icon="@drawable/refund"
+        android:title="@string/reembolso"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/opcion_entregado"
+        android:icon="@drawable/circle_check_regular"
+        android:title="@string/recibido"
+        app:showAsAction="always" />
+</menu>

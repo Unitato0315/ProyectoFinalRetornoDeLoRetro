@@ -36,11 +36,6 @@ class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): R
         vista = LayoutInflater.from(parent.context).inflate(R.layout.game_card,parent,false)
         val viewHolder =ViewHolder(vista!!)
 
-        viewHolder.itemView.setOnClickListener {
-            val intent = Intent(context,GameDetailActivity::class.java)
-            context.startActivity(intent)
-        }
-
         return viewHolder
     }
 
