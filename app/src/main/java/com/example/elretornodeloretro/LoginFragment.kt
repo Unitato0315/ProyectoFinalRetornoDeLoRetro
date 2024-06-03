@@ -74,7 +74,6 @@ class LoginFragment : Fragment() {
     private fun handleLoginSuccess(successResponse: UserLogin?) {
         if (successResponse != null) {
             tokenManage.saveToken(successResponse.token)
-            Almacen.startSession = 1
             showLoadingDialog()
             loadingDialog.dismiss()
             Toast.makeText(requireContext(),"Se ha iniciado sesion correctamente",Toast.LENGTH_SHORT).show()
