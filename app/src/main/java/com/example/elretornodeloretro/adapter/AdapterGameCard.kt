@@ -61,6 +61,7 @@ class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): R
             pos: Int,
             adapter: AdapterGameCard
         ){
+            //Carga de imagenes desde firebase (motivo el limite de espacio de la base de datos)
             var storage = Firebase.storage
 
             var storageRef = storage.reference
@@ -90,7 +91,7 @@ class AdapterGameCard(var listGames: MutableList<Game>, var context: Context): R
 
         }
     }
-
+    // Se encarga de filtrar de forma dinamica con el buscador
     override fun getFilter(): Filter {
         return object :Filter(){
             override fun performFiltering(constraint: CharSequence?): FilterResults {

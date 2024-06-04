@@ -42,11 +42,8 @@ class MainActivity : AppCompatActivity() {
 
         tokenManage = TokenManage(this)
 
-        //tokenManage.deleteToken()
-
         val context = this
-         //       username = "PAQUITO",
-         //       password = "PRUEBA")
+        // Me traigo por primera vez los datos necesarios, para mostrar los productos(se actualizan) y distintos spinner que no deben cambiar
         lifecycleScope.launch {
             val listGames = service.listGames()
             val tipesSends = service.getTipeSend()
@@ -62,18 +59,18 @@ class MainActivity : AppCompatActivity() {
                 Almacen.tipos = tipos.toMutableList()
                 binding = ActivityMainBinding.inflate(layoutInflater)
                 setContentView(binding.root)
-
+                //Se obtiene el token para comprobar el tipo de usuario
                 var token2 = tokenManage.getToken()
 
                 if(!token2.isNullOrBlank()){
+                    //Si existe token se decodifica si esta caducado se elimina
                     val claims = GeneralFuntion.decodeJWT(token2!!)
                     if (claims == null){
                         tokenManage.deleteToken()
                         token2 = ""
                     }
                 }
-
-                //Toast.makeText(context,token2.isNullOrBlank().toString(),Toast.LENGTH_SHORT).show()
+                // se comprueba el rol del usuario y se dibuja una interfaz para cada tipo
                 if(token2.isNullOrBlank()){
                     binding.vpPrincipal.adapter = AdapterViewPage(context)
                     TabLayoutMediator(binding.tabLayout,binding.vpPrincipal){tab,index->
@@ -90,8 +87,6 @@ class MainActivity : AppCompatActivity() {
                     }.attach()
                 }else{
                     val claims = GeneralFuntion.decodeJWT(token2)
-                    //Toast.makeText(context,claims.toString(),Toast.LENGTH_SHORT).show()
-                    //Log.e(TAG,claims.toString())
                     if(claims != null){
                         val id_rol = claims["ID_ROL"]?.toString()
                         if (id_rol == "99"){
@@ -135,24 +130,10 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-    //Como referencia
-    fun decodeToken(context: Context, token: String){
-        val claims = GeneralFuntion.decodeJWT(token)
-        if (claims != null) {
-            val username = claims["USERNAME"]?.toString()
-            val id_user = claims["ID_USUARIO"]
-            val id_rol = claims["ID_ROL"]?.toString()
-            // Obtener otros datos según los campos del token
-            Toast.makeText(context,username,Toast.LENGTH_SHORT).show()
-            Toast.makeText(context,id_user.toString(),Toast.LENGTH_SHORT).show()
-            Toast.makeText(context,id_rol,Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context,"NO SE A PODIDO DECODIFICAR",Toast.LENGTH_SHORT).show()
-        }
-    }
 
     override fun onRestart() {
         super.onRestart()
+        //compruebo si hay un token y si se acaba de iniciar sesion
         if(tokenManage.getToken()!="" && Almacen.startSession != 0){
             Almacen.startSession = 0
             recreate()

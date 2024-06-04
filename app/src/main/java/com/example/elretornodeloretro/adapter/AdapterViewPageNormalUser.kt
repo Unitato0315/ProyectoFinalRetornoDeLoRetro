@@ -15,7 +15,6 @@ class AdapterViewPageNormalUser (fragment: MainActivity): FragmentStateAdapter(f
         ShoppingFragment(),
         ChatFragment(),
         UserOptionFragment()
-        // Agrega aquí otros fragmentos si es necesario
     )
     override fun getItemCount() = 4
 

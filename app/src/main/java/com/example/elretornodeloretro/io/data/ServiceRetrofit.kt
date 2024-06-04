@@ -36,6 +36,7 @@ import retrofit2.http.Path
 
 
 interface ServiceRetrofit {
+    //Aqui es donde se realizan todas las llamadas a la api
     @GET("api/game")
     suspend fun  listGames(): Array<Game>
     @POST("auth/login")

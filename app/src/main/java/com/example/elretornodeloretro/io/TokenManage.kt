@@ -3,6 +3,7 @@ package com.example.elretornodeloretro.io
 import android.content.Context
 
 class TokenManage(context: Context) {
+    //Se encarga del manejo del guardado en local del token
     private val sharedPreferences = context.getSharedPreferences("mi_app_pref", Context.MODE_PRIVATE)
     private val editor = sharedPreferences.edit()
 

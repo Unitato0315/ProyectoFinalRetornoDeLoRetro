@@ -78,6 +78,7 @@ class AdapterShopCart(var listProduct: MutableList<Game>, var context: Context,p
         }
 
     }
+    //Se encarga de eliminar los productos del carrito
     fun removeItem(position: Int,price:Float) {
         Almacen.totalPrice -= price
         listProduct.removeAt(position)

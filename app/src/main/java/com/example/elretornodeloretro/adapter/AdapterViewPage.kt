@@ -11,7 +11,6 @@ class AdapterViewPage(fragment: MainActivity): FragmentStateAdapter(fragment) {
     private val fragmentList = listOf(
         Fragment_games(),
         LoginFragment()
-        // Agrega aquí otros fragmentos si es necesario
     )
     override fun getItemCount() = 2
 

@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm
 
 class GeneralFuntion {
     companion object {
+        //Funcion para decodificar el token
         fun decodeJWT(token: String): Map<String, Any>? {
             try {
                 val algorithm = Algorithm.HMAC256("BDPEK@")

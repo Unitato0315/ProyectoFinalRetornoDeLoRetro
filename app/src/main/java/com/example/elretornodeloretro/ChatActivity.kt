@@ -56,6 +56,7 @@ class ChatActivity : AppCompatActivity() {
         obtenerMensajes()
         obtenerMensajesTemporizador()
     }
+    //Recupero todos los mensajes actuales de la base de datos
     fun obtenerMensajes(){
         lifecycleScope.launch {
             var listMensajes: MutableList<MensajeChat> = service.obtenerMensajes(Almacen.selectecChat.ID_CHAT).toMutableList()
@@ -70,7 +71,7 @@ class ChatActivity : AppCompatActivity() {
             }
         }
     }
-
+    //Crea los mensajes en la base de datos
     fun enviarMensaje(rol: Int) {
         lifecycleScope.launch {
             var admin = 0
@@ -88,7 +89,7 @@ class ChatActivity : AppCompatActivity() {
             }
         }
     }
-
+    //Bucle encargado de mantener actualizados los mensajes
     fun obtenerMensajesTemporizador(){
         lifecycleScope.launch {
             while (true){

@@ -54,6 +54,7 @@ class AdapterMesageChatCard(var listMensajes: MutableList<MensajeChat>, var cont
         ){
             tokenManage = TokenManage(context)
             val claim = GeneralFuntion.decodeJWT(tokenManage.getToken()!!)
+            //compruebo el rol para saber donde colocar cada mensaje
             if(claim!!["ID_ROL"].toString().toInt() == 99){
                 if(mensaje.ADMIN == 1){
                     tvPropio.text = mensaje.MENSAJE

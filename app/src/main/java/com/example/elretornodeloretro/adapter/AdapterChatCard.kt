@@ -65,7 +65,7 @@ class AdapterChatCard(var listChat: MutableList<DatosChat>,var context: Context)
             val idRol = claim!!["ID_ROL"].toString().toInt()
 
             motivo.text = chat.NOMBRE_TIPO_CHAT
-
+            //Comprobacion del rol para saber quien a sido el ultimo en escribir
             if(idRol == 99){
                 tituloMotivo.text = "MOTIVO: "+chat.TITULO+"\nUSUARIO: "+chat.NOMBRE+" "+chat.APELLIDO
                 if(chat.ULTIMO_MENSAJE == 0){

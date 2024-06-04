@@ -13,7 +13,6 @@ class AdapterViewPageAdmin(fragment: MainActivity): FragmentStateAdapter(fragmen
         GamesListFragment(),
         ChatFragment(),
         UserOptionFragment()
-        // Agrega aquí otros fragmentos si es necesario
     )
     override fun getItemCount() = 3
 
