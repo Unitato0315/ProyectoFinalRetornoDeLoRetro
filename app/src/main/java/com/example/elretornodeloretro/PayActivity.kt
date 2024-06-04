@@ -217,8 +217,11 @@ class PayActivity : AppCompatActivity() {
                     finish()
                 }else{
                     Toast.makeText(context,response.message,Toast.LENGTH_LONG).show()
-                    Almacen.cart = mutableListOf()
-                    finish()
+                    if(response.productos.isNotEmpty()){
+                        Almacen.cart = mutableListOf()
+                        Almacen.totalPrice = 0f
+                        finish()
+                    }
                 }
             }
         }
