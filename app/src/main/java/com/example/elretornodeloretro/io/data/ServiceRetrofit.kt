@@ -1,6 +1,8 @@
 package com.example.elretornodeloretro.io.data
 
 import android.content.Context
+import com.example.elretornodeloretro.model.CrearChat
+import com.example.elretornodeloretro.model.DatosChat
 import com.example.elretornodeloretro.model.Estado
 import com.example.elretornodeloretro.model.Game
 import com.example.elretornodeloretro.model.Message
@@ -112,6 +114,19 @@ interface ServiceRetrofit {
         @Body o:ProductModiCreate
     ):Message
 
+    @GET("recuperarChat/{id}")
+    suspend fun getChat(
+        @Path("id")id: Int
+    ):Array<DatosChat>
+
+    @GET("recuperarAllChat")
+    suspend fun getAllChat(
+    ):Array<DatosChat>
+
+    @POST("crearChat")
+    suspend fun crearChat(
+        @Body o:CrearChat
+    ):Message
 }
 
 object RetrofitServiceFactory{
