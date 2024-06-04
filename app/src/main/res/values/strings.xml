@@ -47,4 +47,5 @@
     <string name="precio">Precio</string>
     <string name="no_se_han_realizado_ningun_pedido">No se han realizado ningun pedido</string>
     <string name="chat">CHAT</string>
+    <string name="mensaje">Mensaje</string>
 </resources>

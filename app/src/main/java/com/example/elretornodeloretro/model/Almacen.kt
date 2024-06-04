@@ -15,4 +15,5 @@ object Almacen {
     var tipos: MutableList<Tipo> = mutableListOf()
     var plataformas : MutableList<Plataforma> = mutableListOf()
     var listaChat : MutableList<DatosChat> = mutableListOf()
+    lateinit var selectecChat: DatosChat
 }

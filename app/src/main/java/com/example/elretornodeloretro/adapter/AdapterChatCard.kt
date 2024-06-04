@@ -9,10 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.elretornodeloretro.ChatActivity
 import com.example.elretornodeloretro.GameDetailActivity
 import com.example.elretornodeloretro.R
 import com.example.elretornodeloretro.io.GeneralFuntion
@@ -48,6 +50,7 @@ class AdapterChatCard(var listChat: MutableList<DatosChat>,var context: Context)
         val motivo: TextView = view.findViewById(R.id.tvMotivo)
         val tituloMotivo: TextView = view.findViewById(R.id.tvTituloMotivo)
         val imWarning: ImageView = view.findViewById(R.id.imAdvertencia)
+        val lnChat: LinearLayout = view.findViewById(R.id.lnChat)
 
         @SuppressLint("ResourceAsColor")
         fun bind(
@@ -79,6 +82,11 @@ class AdapterChatCard(var listChat: MutableList<DatosChat>,var context: Context)
                 }
             }
 
+            lnChat.setOnClickListener {
+                Almacen.selectecChat = chat
+                var inte: Intent = Intent(context, ChatActivity::class.java)
+                ContextCompat.startActivity(context, inte, null)
+            }
         }
     }
 }

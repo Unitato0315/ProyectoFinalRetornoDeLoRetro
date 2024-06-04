@@ -103,7 +103,7 @@ class ResumenPedidoActivity : AppCompatActivity() {
             if(Almacen.selectecPedido.ID_ESTADO_PEDIDO == 4 || Almacen.selectecPedido.ID_ESTADO_PEDIDO == 5){
                 menu?.findItem(R.id.opcion_reembolso)?.isVisible = false
                 menu?.findItem(R.id.opcion_cancelar)?.isVisible = false
-            }else if(Almacen.selectecPedido.ID_ESTADO_PEDIDO == 3){
+            }else if(Almacen.selectecPedido.ID_ESTADO_PEDIDO == 3|| Almacen.selectecPedido.ID_ESTADO_PEDIDO == 2){
                 menu?.findItem(R.id.opcion_cancelar)?.isVisible = false
             }
         }

@@ -3,6 +3,7 @@ package com.example.elretornodeloretro.io.data
 import android.content.Context
 import com.example.elretornodeloretro.model.CrearChat
 import com.example.elretornodeloretro.model.DatosChat
+import com.example.elretornodeloretro.model.EnviarMensaje
 import com.example.elretornodeloretro.model.Estado
 import com.example.elretornodeloretro.model.Game
 import com.example.elretornodeloretro.model.Message
@@ -10,6 +11,7 @@ import com.example.elretornodeloretro.model.PostModelLogin
 import com.example.elretornodeloretro.model.User
 import com.example.elretornodeloretro.model.UserLogin
 import com.example.elretornodeloretro.model.InformationOrder
+import com.example.elretornodeloretro.model.MensajeChat
 import com.example.elretornodeloretro.model.Order
 import com.example.elretornodeloretro.model.Plataforma
 import com.example.elretornodeloretro.model.ProductModiCreate
@@ -126,6 +128,17 @@ interface ServiceRetrofit {
     @POST("crearChat")
     suspend fun crearChat(
         @Body o:CrearChat
+    ):Message
+
+    @GET("recuperarMensajes/{id}")
+    suspend fun obtenerMensajes(
+        @Path("id")id: Int
+    ): Array<MensajeChat>
+
+    @POST("crearMensaje/{id}")
+    suspend fun crearMensaje(
+        @Path("id")id: Int,
+        @Body o:EnviarMensaje
     ):Message
 }
 
