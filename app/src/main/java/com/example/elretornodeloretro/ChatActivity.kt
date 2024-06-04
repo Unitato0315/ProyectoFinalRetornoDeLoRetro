@@ -60,10 +60,11 @@ class ChatActivity : AppCompatActivity() {
         lifecycleScope.launch {
             var listMensajes: MutableList<MensajeChat> = service.obtenerMensajes(Almacen.selectecChat.ID_CHAT).toMutableList()
             runOnUiThread {
-                adapterChat = AdapterMesageChatCard(listMensajes,context)
-                recycler.adapter = adapterChat
                 if(tamanioLista < listMensajes.size){
+                    adapterChat = AdapterMesageChatCard(listMensajes,context)
+                    recycler.adapter = adapterChat
                     recycler.scrollToPosition(listMensajes.size-1)
+                    tamanioLista = listMensajes.size
                 }
 
             }
