@@ -58,6 +58,7 @@ class PayActivity : AppCompatActivity() {
             paysString.add(pay.FORMA_DE_PAGO)
         }
         var selectecPays = 0
+        var selectecSend = 0
         val adapterPays = ArrayAdapter(this,android.R.layout.simple_spinner_item,paysString)
         binding.sPagos.adapter = adapterPays
 
@@ -71,6 +72,7 @@ class PayActivity : AppCompatActivity() {
                 selectecPays = position
                 if(selectecPays == 3){
                     binding.sEnvios.setSelection(7)
+                    selectecSend = 7
                     binding.sEnvios.isEnabled = false
                 }else{
                     binding.sEnvios.isEnabled = true
@@ -87,7 +89,6 @@ class PayActivity : AppCompatActivity() {
             sendString.add(send.TIPO_ENVIO)
         }
 
-        var selectecSend = 0
         val adapterSend = ArrayAdapter(this,android.R.layout.simple_spinner_item,sendString)
         binding.sEnvios.adapter = adapterSend
 
@@ -216,6 +217,8 @@ class PayActivity : AppCompatActivity() {
                     finish()
                 }else{
                     Toast.makeText(context,response.message,Toast.LENGTH_LONG).show()
+                    Almacen.cart = mutableListOf()
+                    finish()
                 }
             }
         }
