@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.elretornodeloretro.ChatActivity
+import com.example.elretornodeloretro.ChatAdminActivity
 import com.example.elretornodeloretro.GameDetailActivity
 import com.example.elretornodeloretro.R
 import com.example.elretornodeloretro.io.GeneralFuntion
@@ -84,8 +85,13 @@ class AdapterChatCard(var listChat: MutableList<DatosChat>,var context: Context)
 
             lnChat.setOnClickListener {
                 Almacen.selectecChat = chat
-                var inte: Intent = Intent(context, ChatActivity::class.java)
-                ContextCompat.startActivity(context, inte, null)
+                if(idRol == 99){
+                    var inte: Intent = Intent(context, ChatAdminActivity::class.java)
+                    ContextCompat.startActivity(context, inte, null)
+                }else{
+                    var inte: Intent = Intent(context, ChatActivity::class.java)
+                    ContextCompat.startActivity(context, inte, null)
+                }
             }
         }
     }

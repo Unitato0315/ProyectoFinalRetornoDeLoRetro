@@ -24,9 +24,9 @@ import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
 import java.io.File
 
-class AdapterMesageChatCard(var listMensajes: MutableList<MensajeChat>, var context: Context): RecyclerView.Adapter<AdapterMesageChatCard.ViewHolder>() {
+class AdapterMesageChatCardAdmin(var listMensajes: MutableList<MensajeChat>, var context: Context): RecyclerView.Adapter<AdapterMesageChatCardAdmin.ViewHolder>() {
 
-    override fun onBindViewHolder(holder: AdapterMesageChatCard.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AdapterMesageChatCardAdmin.ViewHolder, position: Int) {
         val item = listMensajes[position]
         holder.bind(item,context,position,this)
     }
@@ -50,10 +50,10 @@ class AdapterMesageChatCard(var listMensajes: MutableList<MensajeChat>, var cont
             mensaje: MensajeChat,
             context: Context,
             pos: Int,
-            adapter: AdapterMesageChatCard
+            adapter: AdapterMesageChatCardAdmin
         ){
             tokenManage = TokenManage(context)
-            if(mensaje.ADMIN == 0){
+            if(mensaje.ADMIN == 1){
                 tvPropio.text = mensaje.MENSAJE
                 tvPropio.visibility = View.VISIBLE
                 tvOtro.visibility = View.GONE
@@ -62,7 +62,6 @@ class AdapterMesageChatCard(var listMensajes: MutableList<MensajeChat>, var cont
                 tvOtro.visibility = View.VISIBLE
                 tvPropio.visibility = View.GONE
             }
-
         }
     }
 }
