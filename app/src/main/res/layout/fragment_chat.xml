@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="81dp"
+            android:layout_height="60dp"
             android:background="@color/card"
             android:orientation="horizontal">
 
@@ -29,7 +29,7 @@
 
             <ImageButton
                 android:id="@+id/imNuevoChat"
-                android:layout_width="88dp"
+                android:layout_width="41dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"

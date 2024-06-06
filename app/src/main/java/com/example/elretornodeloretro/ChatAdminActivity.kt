@@ -55,7 +55,9 @@ class ChatAdminActivity : AppCompatActivity() {
         recycler.layoutManager = GridLayoutManager(this,1)
 
         binding.imgMandarAdmin.setOnClickListener {
-            enviarMensaje(claim!!["ID_ROL"].toString().toInt())
+            if(!binding.editTextTextMultiLineAdmin.text.isNullOrBlank()){
+                enviarMensaje(claim!!["ID_ROL"].toString().toInt())
+            }
         }
 
         obtenerMensajes()

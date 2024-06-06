@@ -50,7 +50,10 @@ class ChatActivity : AppCompatActivity() {
         recycler.layoutManager = GridLayoutManager(this,1)
 
         binding.imgMandar.setOnClickListener {
-            enviarMensaje(claim!!["ID_ROL"].toString().toInt())
+            if(!binding.editTextTextMultiLine.text.isNullOrBlank()){
+                enviarMensaje(claim!!["ID_ROL"].toString().toInt())
+            }
+
         }
 
         obtenerMensajes()
