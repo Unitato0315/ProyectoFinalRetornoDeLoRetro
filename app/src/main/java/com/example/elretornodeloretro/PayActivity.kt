@@ -223,7 +223,7 @@ class PayActivity : AppCompatActivity() {
                     lifecycleScope.launch {
                         try {
                             val to = email
-                            val subject = "Confirmacion pedido Nº ${response.productos}"
+                            val subject = "Confirmacion pedido Nº ${response.idPedido}"
                             var bodyText = """
                                 ¡Hola ${nombre}!
                                 
@@ -231,7 +231,7 @@ class PayActivity : AppCompatActivity() {
                                 Nos alegra informarte que hemos recibido tu pedido y estamos trabajando para procesarlo lo antes posible. 
                                 Aquí tienes los detalles de tu pedido:
                                 
-                                Numero pedido: ${response.productos}
+                                Numero pedido: ${response.idPedido}
                                 
                                 Productos:
                                 
