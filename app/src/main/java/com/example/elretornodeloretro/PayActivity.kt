@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.elretornodeloretro.adapter.AdapterResumeBuy
 import com.example.elretornodeloretro.databinding.ActivityPayBinding
+import com.example.elretornodeloretro.io.EmailSender
 import com.example.elretornodeloretro.io.GeneralFuntion
 import com.example.elretornodeloretro.io.TokenManage
 import com.example.elretornodeloretro.io.data.RetrofitServiceFactory
@@ -23,7 +24,10 @@ import com.example.elretornodeloretro.model.Almacen
 import com.example.elretornodeloretro.model.InformationOrder
 import com.example.elretornodeloretro.model.ResponseOrder
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class PayActivity : AppCompatActivity() {
     lateinit var binding: ActivityPayBinding
@@ -32,6 +36,8 @@ class PayActivity : AppCompatActivity() {
     lateinit var service: ServiceRetrofit
     lateinit var context: Context
     lateinit var tokenManage: TokenManage
+    var nombre = ""
+    var email = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -126,6 +132,8 @@ class PayActivity : AppCompatActivity() {
                 binding.edCP.setText(userData.CODIGO_POSTAL.toString())
                 binding.edProvincia.setText(userData.PROVINCIA)
                 binding.edTelefono.setText(userData.TELEFONO.toString())
+                email = userData.EMAIL
+                nombre = userData.NOMBRE+" "+userData.APELLIDO
             }
         }
 
@@ -192,7 +200,6 @@ class PayActivity : AppCompatActivity() {
         for (game in Almacen.cart){
             listId.add(game.ID_PRODUCTO)
         }
-
         val informationOrder = InformationOrder(
             cardNumber =  carNumber,
             cp = binding.edCP.text.toString().toInt(),
@@ -211,10 +218,48 @@ class PayActivity : AppCompatActivity() {
             val response: ResponseOrder = service.createOrder(informationOrder)
             runOnUiThread {
                 if(response.success){
-                    Almacen.cart = mutableListOf()
-                    Almacen.totalPrice = 0f
+
                     Toast.makeText(context,response.message,Toast.LENGTH_LONG).show()
-                    finish()
+                    lifecycleScope.launch {
+                        try {
+                            val to = email
+                            val subject = "Confirmacion pedido Nº ${response.productos}"
+                            var bodyText = """
+                                ¡Hola ${nombre}!
+                                
+                                Gracias por comprar en el Retorno de lo Retro.
+                                Nos alegra informarte que hemos recibido tu pedido y estamos trabajando para procesarlo lo antes posible. 
+                                Aquí tienes los detalles de tu pedido:
+                                
+                                Numero pedido: ${response.productos}
+                                
+                                Productos:
+                                
+                            """.trimIndent()
+                            for(producto in Almacen.cart){
+                                bodyText += "       ${producto.TITULO}: ${String.format("%.2f", producto.PRECIO_FINAL)}€\n"
+                            }
+                            bodyText += """
+                                  Total: ${String.format("%.2f", Almacen.totalPrice)}€
+                                  
+                                 ¡Gracias por confiar en nosotros!
+
+                                 Atentamente,
+                                        El equipo de El Retorno de lo Retro
+                            """.trimIndent()
+
+                            EmailSender.sendEmail(to, subject, bodyText)
+                            runOnUiThread {
+                                Almacen.cart = mutableListOf()
+                                Almacen.totalPrice = 0f
+                                finish()
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            finish()
+                        }
+                    }
+
                 }else{
                     Toast.makeText(context,response.message,Toast.LENGTH_LONG).show()
                     if(response.productos.isNotEmpty()){
@@ -227,4 +272,5 @@ class PayActivity : AppCompatActivity() {
         }
 
     }
+
 }

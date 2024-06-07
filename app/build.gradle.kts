@@ -17,6 +17,11 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    packagingOptions {
+        resources {
+            excludes += setOf("META-INF/NOTICE.md", "META-INF/LICENSE.md")
+        }
+    }
 
     buildTypes {
         release {
@@ -70,5 +75,8 @@ dependencies {
 
     implementation("com.google.android.material:material:1.11.0")
 
+    //SERVICIO DE ENVIO DE CORREOS
+    implementation("com.sun.mail:android-mail:1.6.7")
+    implementation("com.sun.mail:android-activation:1.6.7")
 
 }
