@@ -175,6 +175,12 @@ class PayActivity : AppCompatActivity() {
                     Toast.makeText(context, "El numero de la tarjeta no es correcto", Toast.LENGTH_SHORT).show()
                     validar=false
                 }
+                val mes = expired.toString().substring(0,2)
+                if(mes.toInt() > 12){
+                    Toast.makeText(context, "Se ha introducido una fecha invalida", Toast.LENGTH_SHORT).show()
+                    validar=false
+                }
+
                 if(validar){
                     finalizar(send,pay,cardNumber,cvv,expired)
                 }
