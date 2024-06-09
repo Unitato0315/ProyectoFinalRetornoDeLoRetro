@@ -36,7 +36,7 @@ class UserOptionFragment : Fragment() {
         val claim = GeneralFuntion.decodeJWT(tokenManage.getToken().toString())
 
         if(claim!!["ID_ROL"].toString().toInt() == 99){
-            //binding.btnModificar.visibility = View.INVISIBLE
+            binding.btnModificar.visibility = View.GONE
             binding.btnModificar.isEnabled = false
         }else{
             //binding.btnModificar.visibility = View.VISIBLE
