@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -38,6 +39,7 @@ class PayActivity : AppCompatActivity() {
     lateinit var tokenManage: TokenManage
     var nombre = ""
     var email = ""
+    lateinit var loadingDialog: AlertDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -221,6 +223,7 @@ class PayActivity : AppCompatActivity() {
             total = Almacen.totalPrice
         )
         lifecycleScope.launch {
+            showLoadingDialog()
             val response: ResponseOrder = service.createOrder(informationOrder)
             runOnUiThread {
                 if(response.success){
@@ -258,10 +261,14 @@ class PayActivity : AppCompatActivity() {
                             runOnUiThread {
                                 Almacen.cart = mutableListOf()
                                 Almacen.totalPrice = 0f
+                                loadingDialog.dismiss()
                                 finish()
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            Almacen.cart = mutableListOf()
+                            Almacen.totalPrice = 0f
+                            loadingDialog.dismiss()
                             finish()
                         }
                     }
@@ -271,12 +278,22 @@ class PayActivity : AppCompatActivity() {
                     if(response.productos.isNotEmpty()){
                         Almacen.cart = mutableListOf()
                         Almacen.totalPrice = 0f
+                        loadingDialog.dismiss()
                         finish()
                     }
                 }
             }
         }
 
+    }
+    private fun showLoadingDialog() {
+        val builder = AlertDialog.Builder(context,R.style.CustomDialog)
+        val inflater = layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_refrest, null)
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        loadingDialog = builder.create()
+        loadingDialog.show()
     }
 
 }
