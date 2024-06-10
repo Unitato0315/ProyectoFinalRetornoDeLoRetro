@@ -62,15 +62,13 @@ class UserOptionFragment : Fragment() {
             val asunto = "Contacto con la tienda"
 
 
-            // Crear un Intent con la acción ACTION_SENDTO para enviar el correo
+            
             val intent = Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("mailto:") // Establecer el esquema como "mailto:"
-                putExtra(Intent.EXTRA_EMAIL, arrayOf(destinatario)) // Establecer el destinatario del correo
-                putExtra(Intent.EXTRA_SUBJECT, asunto) // Establecer el asunto del correo
-                putExtra(Intent.EXTRA_TEXT, "") // Establecer el cuerpo del correo
+                data = Uri.parse("mailto:")
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(destinatario))
+                putExtra(Intent.EXTRA_SUBJECT, asunto)
+                putExtra(Intent.EXTRA_TEXT, "")
             }
-
-            // Verificar si existe alguna aplicación de correo electrónico para manejar el intent
 
             startActivity(intent)
         }
